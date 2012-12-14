@@ -40,7 +40,7 @@
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
-
+		
 	</dependencies>
 	<build>
 		<plugins>
@@ -52,37 +52,6 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-<!-- 			<plugin> -->
-<!-- 				<groupId>com.googlecode.robotframework-maven-plugin</groupId> -->
-<!-- 				<artifactId>robotframework-maven-plugin</artifactId> -->
-<!-- 				<configuration> -->
-<!-- 					<libraryOrResourceFile>src/main/java/de/codecentric/robot/mongodblibrary/keywords/MongodbLibrary.java</libraryOrResourceFile> -->
-<!-- 					<output>src/doc</output> -->
-<!-- 				</configuration> -->
-<!-- 				<dependencies> -->
-<!-- 					<dependency> -->
-<!-- 						<groupId>com.sun</groupId> -->
-<!-- 						<artifactId>tools</artifactId> -->
-<!-- 						<version>1.5.0_22</version> -->
-<!-- 						<scope>system</scope> -->
-<!-- 						<systemPath>${java.home}/../lib/tools.jar</systemPath> -->
-<!-- 					</dependency> -->
-<!-- 					<dependency> -->
-<!-- 						<groupId>org.mongodb</groupId> -->
-<!-- 						<artifactId>mongo-java-driver</artifactId> -->
-<!-- 						<version>${mongo.driver.version}</version> -->
-<!-- 						<scope>compile</scope> -->
-<!-- 					</dependency> -->
-<!-- 				</dependencies> -->
-<!-- 				<executions> -->
-<!-- 					<execution> -->
-<!-- 						<goals> -->
-<!-- 							<goal>libdoc</goal> -->
-<!-- 						</goals> -->
-<!-- 					</execution> -->
-<!-- 				</executions> -->
-<!-- 			</plugin> -->
-
 		</plugins>
 	</build>
 

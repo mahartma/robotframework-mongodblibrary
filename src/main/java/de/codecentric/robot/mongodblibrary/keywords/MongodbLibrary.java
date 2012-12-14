@@ -56,6 +56,10 @@ public class MongodbLibrary {
 	/**
 	 *  Inserts a Json-Document
 	 * 
+	 * Arguments:
+	 * - _collection_: the target collection
+	 * - _jsonString_: the json to persist
+	 *  
 	 *  Example:
 	 *  | insert Json Document Into Collection | myCollection | {say : 'Hello MongoDB!'} |
 	 */
