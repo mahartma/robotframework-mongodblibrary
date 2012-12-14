@@ -54,17 +54,30 @@ public class MongodbLibrary {
 	}
 	
 	/**
-	 *  Inserts a Json-Document
+	 *  Inserts the given Json-Document into the given collection. 
 	 * 
 	 * Arguments:
-	 * - _collection_: the target collection
-	 * - _jsonString_: the json to persist
+	 * - _collectionName_: the name of the target collection
+	 * - _jsonString_: the json document to persist
 	 *  
-	 *  Example:
-	 *  | insert Json Document Into Collection | myCollection | {say : 'Hello MongoDB!'} |
+	 * Example:
+	 * | Insert Json Document Into Collection | myCollection | {say : 'Hello MongoDB!'} |
 	 */
-	public void insertJsonDocumentIntoCollection(String collection, String jsonString) {
-		db.getCollection(collection).insert((DBObject) JSON.parse(jsonString));
+	public void insertJsonDocumentIntoCollection(String collectionName, String jsonString) {
+		db.getCollection(collectionName).insert((DBObject) JSON.parse(jsonString));
+	}
+
+	/**
+	 *  Drops the given collection.
+	 *  
+	 * Arguments:
+	 * - _collectionName_: the name of the collection to drop
+	 *   
+	 * Example:
+	 * | Drop Collection | myCollection |
+	 */
+	public void dropCollection(String collectionName) {
+		db.getCollection(collectionName).drop();
 	}
 	
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<keywordspec generated="20121214 14:50:12" format="ROBOT" type="library" name="de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary">
+<keywordspec generated="20121214 15:37:08" format="ROBOT" type="library" name="de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary">
 <version></version>
 <scope>global</scope>
 <namedargs>no</namedargs>
@@ -30,18 +30,30 @@
 </arguments>
 <doc>Connecting to a specific mongodb server with given port and database.</doc>
 </init>
-<kw name="Insert Json Document Into Collection">
+<kw name="Drop Collection">
 <arguments>
-<arg>collection</arg>
-<arg>jsonString</arg>
+<arg>collectionName</arg>
 </arguments>
-<doc>Inserts a Json-Document
+<doc>Drops the given collection.
 
 Arguments:
-- _collection_: the target collection
-- _jsonString_: the json to persist
+- _collectionName_: the name of the collection to drop
 
 Example:
-| insert Json Document Into Collection | myCollection | {say : 'Hello MongoDB!'} |</doc>
+| Drop Collection | myCollection |</doc>
+</kw>
+<kw name="Insert Json Document Into Collection">
+<arguments>
+<arg>collectionName</arg>
+<arg>jsonString</arg>
+</arguments>
+<doc>Inserts the given Json-Document into the given collection.
+
+Arguments:
+- _collectionName_: the name of the target collection
+- _jsonString_: the json document to persist
+
+Example:
+| Insert Json Document Into Collection | myCollection | {say : 'Hello MongoDB!'} |</doc>
 </kw>
 </keywordspec>
