@@ -1,0 +1,3 @@
+del %~dp0%doc\libdoc\*.html
+call mvn com.googlecode.robotframework-maven-plugin:robotframework-maven-plugin:libdoc -Doutput=doc/libdoc -DlibraryOrResourceDirectory=src/main/java/de/codecentric/robot/mongodblibrary/keywords
+call mvn com.googlecode.robotframework-maven-plugin:robotframework-maven-plugin:libdoc -Dformat=xml -Doutput=doc/libdoc -DlibraryOrResourceDirectory=src/main/java/de/codecentric/robot/mongodblibrary/keywords

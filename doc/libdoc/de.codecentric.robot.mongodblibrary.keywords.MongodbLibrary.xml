@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<keywordspec generated="20121214 13:36:33" type="library" name="de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary">
+<version>&amp;lt;unknown&amp;gt;</version>
+<scope>global</scope>
+<namedargs>no</namedargs>
+<doc>This library supports mongodb-related testing using the Robot Framework.</doc>
+<init>
+<doc>Connecting to a local mongodb instance.</doc>
+<arguments>
+</arguments>
+</init>
+<init>
+<doc>Connecting to a specific mongodb server.</doc>
+<arguments>
+<arg>server</arg>
+</arguments>
+</init>
+<init>
+<doc>Connecting to a specific mongodb server with given port.</doc>
+<arguments>
+<arg>server</arg>
+<arg>port</arg>
+</arguments>
+</init>
+<init>
+<doc>Connecting to a specific mongodb server with given port and database.</doc>
+<arguments>
+<arg>server</arg>
+<arg>port</arg>
+<arg>database</arg>
+</arguments>
+</init>
+<kw name="Insert Json Document Into Collection">
+<doc>Inserts a Json-Document
+
+Example:
+| insert Json Document Into Collection | myCollection | {say : 'Hello MongoDB!'} |</doc>
+<arguments>
+<arg>collection</arg>
+<arg>jsonString</arg>
+</arguments>
+</kw>
+</keywordspec>
