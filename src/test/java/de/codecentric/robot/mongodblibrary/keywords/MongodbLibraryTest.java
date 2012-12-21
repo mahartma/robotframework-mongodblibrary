@@ -1,11 +1,12 @@
 package de.codecentric.robot.mongodblibrary.keywords;
 
-import static java.lang.Boolean.FALSE;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
+import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -28,22 +29,23 @@ public class MongodbLibraryTest {
 
 	private MongodbLibrary library;
 	private MongoClient mongoClient;
-	private DB db;
+	private DB db1;
 	
 	@Before
 	public void setUp() throws UnknownHostException {
-		library = new MongodbLibrary();
+		library = new MongodbLibrary("localhost", "robotdb1");
 		mongoClient = new MongoClient("localhost" , 27017 );
-		db = mongoClient.getDB("robotdb");
+		db1 = mongoClient.getDB("robotdb1");
+		mongoClient.getDB("robotdb2");
 	}
 	
 	@Test
 	public void shouldInsertJsonIntoCollection() {
 		//given
-		DBCollection collection = db.getCollection("testCol");
+		DBCollection collection = db1.getCollection("testCol");
 		String json = "{say : 'Hello MongoDb!'}";
 		//when
-		library.insertJsonDocumentIntoCollection("testCol", json);
+		library.insertDocument("testCol", json);
 		//then
 		DBObject object = collection.find().next();
 		assertThat(object, is(notNullValue()));
@@ -52,19 +54,177 @@ public class MongodbLibraryTest {
 	}
 	
 	@Test
+	public void shouldImportDocumentsFromArray() throws IOException {
+		//given
+		String path = "src/test/data/testArray.json";
+		String collectionName = "testCol";
+		//when
+		library.importDocuments(collectionName, path);
+		//then
+		assertThat(db1.getCollection("testCol").count(), is(2l));
+	}
+
+	@Test
+	public void shouldImportDocumentsFromSingleObject() throws IOException {
+		//given
+		String path = "src/test/data/testSingleObject.json";
+		String collectionName = "testCol";
+		//when
+		library.importDocuments(collectionName, path);
+		//then
+		assertThat(db1.getCollection("testCol").count(), is(1l));
+	}
+
+	@Test
+	public void shouldImportDocumentsRowSeperated() throws IOException {
+		//given
+		String path = "src/test/data/testRowSeperated.json";
+		String collectionName = "testCol";
+		//when
+		library.importDocumentsRowSeperated(collectionName, path);
+		//then
+		assertThat(db1.getCollection("testCol").count(), is(16l));
+	}
+	
+	@Test
 	public void shouldDropCollection() {
 		//given
-		DBCollection collection = db.getCollection("testCol");
+		DBCollection collection = db1.getCollection("testCol");
 		DBObject object = new BasicDBObject("say", "HelloMongoDB");
 		collection.insert(object);
 		//when
 		library.dropCollection("testCol");
 		//then
-		assertThat(db.getCollection("testCol").find().hasNext(), is(FALSE));
+		assertThat(db1.getCollection("testCol").find().hasNext(), is(false));
+	}
+	
+	@Test
+	public void shouldUseDatabase() {
+		//given
+		String databaseName = "robotdb2";
+		//when
+		library.useDatabase(databaseName);
+		//then
+		assertThat(library.getDb().getName(), is(databaseName));
+	}
+	
+	@Test
+	public void shouldDropDatabase() {
+		//given
+		String databaseName = "robotdb2";
+		//when
+		library.dropDatabase("robotdb2");
+		//then
+		assertThat(mongoClient.getDatabaseNames().contains(databaseName), is(false));
+	}
+	
+	@Test
+	public void shouldCreateCollection() {
+		//given
+		String collectionName = "newCollection";
+		//when
+		library.createCollection(collectionName);
+		//then
+		assertThat(db1.getCollectionNames().contains(collectionName), is(true));
+	}
+	
+	@Test
+	public void shouldCreateCollectionWithParameters() {
+		//given
+		String collectionName = "newCollection";
+		//when
+		library.createCollection(collectionName, "{size : 1000}");
+		//then
+		assertThat(db1.getCollectionNames().contains(collectionName), is(true));
+	}
+	
+	@Test
+	public void shouldEnsureIndex() {
+		//given
+		String collectionName = "testCol";
+		//when
+		library.ensureIndex(collectionName, "{a : 1, b : -1}");
+		//then
+		List<DBObject> indexInfo = db1.getCollection(collectionName).getIndexInfo();
+		DBObject key = (DBObject) indexInfo.get(1).get("key");
+		assertThat(indexInfo.size(), is(2));
+		assertThat(key.get("a").toString(), is("1"));
+		assertThat(key.get("b").toString(), is("-1"));
+	}
+
+	@Test
+	public void shouldEnsureUniqueIndexWithGivenName() {
+		//given
+		String collectionName = "testCol";
+		String indexName = "myIndex";
+		//when
+		library.ensureUniqueIndex(collectionName, "{a : 1, b : -1}", indexName);
+		//then
+		List<DBObject> indexInfo = db1.getCollection(collectionName).getIndexInfo();
+		String name = (String) indexInfo.get(1).get("name");
+		DBObject key = (DBObject) indexInfo.get(1).get("key");
+		boolean unique = (Boolean)indexInfo.get(1).get("unique");
+		assertThat(name, is(indexName));
+		assertThat(key.get("a").toString(), is("1"));
+		assertThat(key.get("b").toString(), is("-1"));
+		assertThat(unique, is(true));
+	}
+	
+	@Test
+	public void shouldEnsureIndexWithGivenName() {
+		//given
+		String collectionName = "testCol";
+		String indexName = "myIndex";
+		//when
+		library.ensureIndex(indexName, collectionName, "{a : 1, b : -1}");
+		//then
+		List<DBObject> indexInfo = db1.getCollection(collectionName).getIndexInfo();
+		String name = (String) indexInfo.get(1).get("name");
+		DBObject key = (DBObject) indexInfo.get(1).get("key");
+		assertThat(name, is(indexName));
+		assertThat(key.get("a").toString(), is("1"));
+		assertThat(key.get("b").toString(), is("-1"));
+	}
+	
+	@Test(expected = AssertionError.class)
+	public void shouldFailIfDatabaseNotExists() {
+		//given
+		String database = "newDatabase";
+		//when
+		library.databaseShouldExist(database);
+	}
+
+	@Test
+	public void shouldNotFailIfDatabaseExists() {
+		//given
+		String database = "robotdb1";
+		mongoClient.getDB(database).createCollection("testCol", new BasicDBObject());
+		//when
+		library.databaseShouldExist(database);
+	}
+	
+	@Test(expected = AssertionError.class)
+	public void shouldFailIfCollectionNotExists() {
+		//given
+		String collectionName = "newCollection";
+		//when
+		library.collectionShouldExist(collectionName);
+	}
+	
+	@Test
+	public void shouldNotFailIfCollectionExists() {
+		//given
+		String collectionName = "testCol";
+		db1.createCollection("testCol", new BasicDBObject());
+		//when
+		library.collectionShouldExist(collectionName);
 	}
 	
 	@After
 	public void tearDown() {
-		db.getCollection("testCol").drop();
+		db1.getCollection("testCol").drop();
+		mongoClient.dropDatabase("robotdb1");
+		mongoClient.dropDatabase("robotdb2");
 	}
+
 }

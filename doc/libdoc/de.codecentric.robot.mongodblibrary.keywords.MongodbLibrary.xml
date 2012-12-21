@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<keywordspec generated="20121214 15:37:08" format="ROBOT" type="library" name="de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary">
+<keywordspec generated="20121221 17:12:38" format="ROBOT" type="library" name="de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary">
 <version></version>
 <scope>global</scope>
 <namedargs>no</namedargs>
@@ -18,6 +18,13 @@
 <init>
 <arguments>
 <arg>server</arg>
+<arg>database</arg>
+</arguments>
+<doc>Connecting to a specific mongodb server with given database.</doc>
+</init>
+<init>
+<arguments>
+<arg>server</arg>
 <arg>port</arg>
 </arguments>
 <doc>Connecting to a specific mongodb server with given port.</doc>
@@ -30,6 +37,56 @@
 </arguments>
 <doc>Connecting to a specific mongodb server with given port and database.</doc>
 </init>
+<kw name="Collection Should Exist">
+<arguments>
+<arg>collectionName</arg>
+</arguments>
+<doc>Fails if the collection does not exist.
+
+Arguments:
+- _databaseName_: the collection which should exist
+
+Example:
+| Database Should Exist | myDatabase |</doc>
+</kw>
+<kw name="Create Collection">
+<arguments>
+<arg>collectionName</arg>
+<arg>options</arg>
+</arguments>
+<doc>Creates a collection with the given name and options.
+
+Arguments:
+- _collectionName_: the name of the collection to create
+- _options_: the options of the collection
+
+Example:
+| Create Collection | myCol | {capped:true, size:10000} |</doc>
+</kw>
+<kw name="Create Collection">
+<arguments>
+<arg>collectionName</arg>
+</arguments>
+<doc>Creates a collection with the given name and options.
+
+Arguments:
+- _collectionName_: the name of the collection to create
+
+Example:
+| Create Collection | myCol |</doc>
+</kw>
+<kw name="Database Should Exist">
+<arguments>
+<arg>databaseName</arg>
+</arguments>
+<doc>Fails if the database does not exist.
+
+Arguments:
+- _databaseName_: the database which should exist
+
+Example:
+| Database Should Exist | myDatabase |</doc>
+</kw>
 <kw name="Drop Collection">
 <arguments>
 <arg>collectionName</arg>
@@ -42,7 +99,94 @@ Arguments:
 Example:
 | Drop Collection | myCollection |</doc>
 </kw>
-<kw name="Insert Json Document Into Collection">
+<kw name="Drop Database">
+<arguments>
+<arg>databaseName</arg>
+</arguments>
+<doc>A database in MongoDB is a more lightweight construct compared to RDBMS,
+so a cleanup after testing can be done quite easily by dropping the whole database.
+
+Arguments:
+- _databaseName_: the name of the database to delete
+
+Example:
+| Drop Database | myDb |</doc>
+</kw>
+<kw name="Ensure Index">
+<arguments>
+<arg>collectionName</arg>
+<arg>keys</arg>
+</arguments>
+<doc>Creates an index on the given collection, the desired fields of the index are given by the keys parameter.
+
+Arguments:
+- _collectionName_: the name of collection
+- _keys_: an object with a key set of the fields desired for the index
+
+Example:
+| Ensure Index | myCol | {name : 1, street : 1} |</doc>
+</kw>
+<kw name="Ensure Index">
+<arguments>
+<arg>indexName</arg>
+<arg>collectionName</arg>
+<arg>keys</arg>
+</arguments>
+<doc>Creates an index with given name on the given collection, the desired fields of the index are given by the keys parameter.
+
+Arguments:
+- _indexName_: the name of the index
+- _collectionName_: the name of collection
+- _keys_: an object with a key set of the fields desired for the index
+
+Example:
+| Ensure Index | myCol | {name : 1, street : 1} |</doc>
+</kw>
+<kw name="Ensure Unique Index">
+<arguments>
+<arg>collectionName</arg>
+<arg>keys</arg>
+<arg>indexName</arg>
+</arguments>
+<doc>Creates an unique index with given name on the given collection, the desired fields of the index are given by the keys parameter.
+
+Arguments:
+- _indexName_: the name of the index
+- _collectionName_: the name of collection
+- _keys_: an object with a key set of the fields desired for the index
+
+Example:
+| Ensure Index | myCol | {name : 1, street : 1} |</doc>
+</kw>
+<kw name="Import Documents">
+<arguments>
+<arg>collectionName</arg>
+<arg>file</arg>
+</arguments>
+<doc>Imports the documents from the given file into the given collection.
+
+Arguments:
+- _collectionName_: the name of the target collection
+- _file_: the file that contains the documents
+
+Example:
+| Import Documents | myCol | /data/documents.json |</doc>
+</kw>
+<kw name="Import Documents Row Seperated">
+<arguments>
+<arg>collectionName</arg>
+<arg>file</arg>
+</arguments>
+<doc>Imports the documents from the given file into the given collection. This keyword reads the data row-based.
+
+Arguments:
+- _collectionName_: the name of the target collection
+- _file_: the file that contains the documents
+
+Example:
+| Import Documents Row Seperated | myCol | /data/documents.json |</doc>
+</kw>
+<kw name="Insert Document">
 <arguments>
 <arg>collectionName</arg>
 <arg>jsonString</arg>
@@ -54,6 +198,20 @@ Arguments:
 - _jsonString_: the json document to persist
 
 Example:
-| Insert Json Document Into Collection | myCollection | {say : 'Hello MongoDB!'} |</doc>
+| Insert Document | myCollection | {say : 'Hello MongoDB!'} |</doc>
+</kw>
+<kw name="Use Database">
+<arguments>
+<arg>databaseName</arg>
+</arguments>
+<doc>All following keywords will operate on the selected database. Same as use
+dbname with the Mongo shell. If the database does not exist, it will be
+create as soon as needed.
+
+Arguments:
+- _databaseName_: the name of the database
+
+Example:
+| Use Database | myDb |</doc>
 </kw>
 </keywordspec>
