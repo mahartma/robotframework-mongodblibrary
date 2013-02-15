@@ -1,0 +1,10 @@
+repositories {
+	mavenLocal()
+}
+
+apply plugin: 'java'
+
+dependencies {
+		compile group: 'junit', name: 'junit', version: "4.10"
+		compile group: 'org.mongodb', name: 'mongo-java-driver', version: "2.10.0"
+}
