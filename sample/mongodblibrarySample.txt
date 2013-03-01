@@ -3,6 +3,6 @@ Test Setup  Drop Database  robotdb1
 Library   de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary  localhost  robotdb1
 
 *** Test Cases ***
-Should insert given document to MongoDB instance
+Should insert given document
 	Insert Document  myCollection  {say : 'Hello MongoDb!'}
 	Document Should Exist  myCollection  {say : 'Hello MongoDb!'}
