@@ -269,13 +269,27 @@ public class MongodbLibrary {
 	 *  Fails if the collection does not exist.
 	 *  
 	 *  Arguments:
-	 *  - _databaseName_: the collection which should exist
+	 *  - _collectionName_: the collection which should exist
 	 *  
 	 *  Example:
-	 *  | Database Should Exist | myDatabase |
+	 *  | Collection Should Exist | myCol |
 	 */
 	public void collectionShouldExist(String collectionName) {
 		assertTrue("Collection: " + collectionName + " does not exist.", this.db.getCollectionNames().contains(collectionName));
+	}
+	
+	/**
+	 *  Fails if the given document does not exist in the given collection.
+	 *  
+	 *  Arguments:
+	 *  - _collectionName_: the collection within the document should exist
+	 *  - _document_: the document which should exist in the given collection
+	 *  
+	 *  Example:
+	 *  | Document Should Exist | myCol | {say : 'Hello MongoDb!'} |
+	 */
+	public void documentShouldExist(String collectionName, String document) {
+		assertTrue("Document " + document + " does not exist in Collection " + collectionName + ".", this.db.getCollection(collectionName).find((DBObject) JSON.parse(document)).count() == 1);
 	}
 	
 	DB getDb() {
@@ -296,6 +310,7 @@ public class MongodbLibrary {
         reader.close();
         return fileData.toString();
     }
+
 
 
 }

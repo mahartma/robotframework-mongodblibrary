@@ -17,6 +17,7 @@ import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
+import com.mongodb.util.JSON;
 
 /**
  * 
@@ -218,6 +219,24 @@ public class MongodbLibraryTest {
 		db1.createCollection("testCol", new BasicDBObject());
 		//when
 		library.collectionShouldExist(collectionName);
+	}
+	
+	@Test
+	public void shouldPassIfDocumentExists() {
+		//given
+		db1.getCollection("testCol").insert(
+				(DBObject) JSON.parse("{say : 'Hello MongoDb!'}"));
+		//when
+		library.documentShouldExist("testCol", "{say : 'Hello MongoDb!'}");
+	}
+
+	@Test(expected = AssertionError.class)
+	public void shouldFailIfDocumentExists() {
+		//given
+		db1.getCollection("testCol").insert(
+				(DBObject) JSON.parse("{say : 'Hello MongoDb!'}"));
+		//when
+		library.documentShouldExist("testCol", "{say : 'Hello MongoDb1!'}");
 	}
 	
 	@After

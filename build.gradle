@@ -1,3 +1,5 @@
+import org.gradle.api.tasks.JavaExec;
+
 project.version = '1.0-SNAPSHOT'
 
 repositories {
@@ -6,8 +8,18 @@ repositories {
 
 apply plugin: 'java'
 
+configurations {
+	robot	
+}
 
 dependencies {
 		compile group: 'junit', name: 'junit', version: "4.10"
 		compile group: 'org.mongodb', name: 'mongo-java-driver', version: "2.10.0"
+		robot group: 'org.robotframework', name: 'robotframework', version: "2.7.5"
+}
+
+task(type : JavaExec, 'run sample tests') {
+	classpath = configurations.robot + configurations.compile + sourceSets.main.runtimeClasspath
+	main = 'org.robotframework.RobotFramework'
+	args = ['-d', 'target','sample/mongodblibrarySample.txt']
 }

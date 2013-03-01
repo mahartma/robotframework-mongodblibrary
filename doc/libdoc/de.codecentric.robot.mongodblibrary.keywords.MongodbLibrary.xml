@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<keywordspec generated="20121221 17:12:38" format="ROBOT" type="library" name="de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary">
+<keywordspec generated="20130301 11:56:24" format="ROBOT" type="library" name="de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary">
 <version></version>
 <scope>global</scope>
 <namedargs>no</namedargs>
@@ -37,17 +37,17 @@
 </arguments>
 <doc>Connecting to a specific mongodb server with given port and database.</doc>
 </init>
-<kw name="Collection Should Exist">
+<kw name="Collection Should Exists">
 <arguments>
 <arg>collectionName</arg>
 </arguments>
 <doc>Fails if the collection does not exist.
 
 Arguments:
-- _databaseName_: the collection which should exist
+- _collectionName_: the collection which should exist
 
 Example:
-| Database Should Exist | myDatabase |</doc>
+| Collection Should Exists | myCol |</doc>
 </kw>
 <kw name="Create Collection">
 <arguments>
@@ -75,7 +75,7 @@ Arguments:
 Example:
 | Create Collection | myCol |</doc>
 </kw>
-<kw name="Database Should Exist">
+<kw name="Database Should Exists">
 <arguments>
 <arg>databaseName</arg>
 </arguments>
@@ -85,7 +85,21 @@ Arguments:
 - _databaseName_: the database which should exist
 
 Example:
-| Database Should Exist | myDatabase |</doc>
+| Database Should Exists | myDatabase |</doc>
+</kw>
+<kw name="Document Should Exists">
+<arguments>
+<arg>collectionName</arg>
+<arg>document</arg>
+</arguments>
+<doc>Fails if the given document does not exist in the given collection.
+
+Arguments:
+- _collectionName_: the collection within the document should exists
+- _document_: the document which should exist in the given collection
+
+Example:
+| Document Should Exists | myCol | {say : 'Hello MongoDb!'} |</doc>
 </kw>
 <kw name="Drop Collection">
 <arguments>
