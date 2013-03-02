@@ -1,23 +1,69 @@
 project.version = '1.0-SNAPSHOT'
 
-repositories {
-	mavenCentral()
-}
+repositories { mavenCentral() }
 
 apply plugin: 'java'
 
-configurations {
-	robot	
+configurations { 
+	robot
+	docs
 }
 
 dependencies {
-		compile group: 'junit', name: 'junit', version: "4.10"
-		compile group: 'org.mongodb', name: 'mongo-java-driver', version: "2.10.0"
-		robot group: 'org.robotframework', name: 'robotframework', version: "2.7.5"
+	compile group: 'junit', name: 'junit', version: "4.10"
+	compile group: 'org.apache.commons', name: 'commons-io', version: "1.3.2"
+	compile group: 'org.mongodb', name: 'mongo-java-driver', version: "2.10.0"
+	robot group: 'org.robotframework', name: 'robotframework', version: "2.7.5"
+	docs files("${System.getProperty('java.home')}/../lib/tools.jar")
 }
 
+/*
+ *  tasks
+ */
 task(type : JavaExec, 'run sample tests') {
 	classpath = configurations.robot + configurations.compile + sourceSets.main.runtimeClasspath
 	main = 'org.robotframework.RobotFramework'
-	args = ['-d', 'build','sample/mongodblibrarySample.txt']
+	args = [
+		'-d',
+		'build',
+		'sample/mongodblibrarySample.txt'
+	]
+}
+
+task 'generate docs' << {
+	tasks['generate html doc'].exec()
+	tasks['generate xml doc'].exec()
+}
+
+task(type : JavaExec, 'generate html doc') {
+	classpath = configurations.docs + configurations.robot + configurations.compile + sourceSets.main.runtimeClasspath
+	main = 'org.python.util.jython'
+	args = [
+		'-m',
+		'robot.libdoc',
+		'src/main/java/de/codecentric/robot/mongodblibrary/keywords/MongodbLibrary.java',
+		'doc/libdoc/de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary.html'
+	]
+}
+
+task(type : JavaExec, 'generate xml doc') {
+	classpath = configurations.docs + configurations.robot + configurations.compile + sourceSets.main.runtimeClasspath
+	main = 'org.python.util.jython'
+	args = [
+		'-m',
+		'robot.libdoc',
+		'--format',
+		'XML',
+		'src/main/java/de/codecentric/robot/mongodblibrary/keywords/MongodbLibrary.java',
+		'doc/libdoc/de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary.xml'
+	]
+}
+
+// maven-like test-stats
+test {
+	afterSuite { desc, result ->
+		if (!desc.parent) {
+			println "Results: ${result.resultType} (${result.testCount} tests run, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+		}
+	}
 }

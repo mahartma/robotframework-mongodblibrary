@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<keywordspec generated="20130301 11:56:24" format="ROBOT" type="library" name="de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary">
+<keywordspec generated="20130302 05:29:12" format="ROBOT" type="library" name="de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary">
 <version></version>
 <scope>global</scope>
 <namedargs>no</namedargs>
@@ -37,7 +37,7 @@
 </arguments>
 <doc>Connecting to a specific mongodb server with given port and database.</doc>
 </init>
-<kw name="Collection Should Exists">
+<kw name="Collection Should Exist">
 <arguments>
 <arg>collectionName</arg>
 </arguments>
@@ -47,7 +47,7 @@ Arguments:
 - _collectionName_: the collection which should exist
 
 Example:
-| Collection Should Exists | myCol |</doc>
+| Collection Should Exist | myCol |</doc>
 </kw>
 <kw name="Create Collection">
 <arguments>
@@ -75,7 +75,7 @@ Arguments:
 Example:
 | Create Collection | myCol |</doc>
 </kw>
-<kw name="Database Should Exists">
+<kw name="Database Should Exist">
 <arguments>
 <arg>databaseName</arg>
 </arguments>
@@ -85,9 +85,9 @@ Arguments:
 - _databaseName_: the database which should exist
 
 Example:
-| Database Should Exists | myDatabase |</doc>
+| Database Should Exist | myDatabase |</doc>
 </kw>
-<kw name="Document Should Exists">
+<kw name="Document Should Exist">
 <arguments>
 <arg>collectionName</arg>
 <arg>document</arg>
@@ -95,11 +95,11 @@ Example:
 <doc>Fails if the given document does not exist in the given collection.
 
 Arguments:
-- _collectionName_: the collection within the document should exists
+- _collectionName_: the collection within the document should exist
 - _document_: the document which should exist in the given collection
 
 Example:
-| Document Should Exists | myCol | {say : 'Hello MongoDb!'} |</doc>
+| Document Should Exist | myCol | {say : 'Hello MongoDb!'} |</doc>
 </kw>
 <kw name="Drop Collection">
 <arguments>
@@ -199,6 +199,20 @@ Arguments:
 
 Example:
 | Import Documents Row Seperated | myCol | /data/documents.json |</doc>
+</kw>
+<kw name="Index Should Exist">
+<arguments>
+<arg>collectionName</arg>
+<arg>indexName</arg>
+</arguments>
+<doc>Fails if the given index does not exist in the given collection.
+
+Arguments:
+- _collectionName_: the collection within the index should exist
+- _index_: the name of the index which should exist in the given collection
+
+Example:
+| Index Should Exist | myCol | a_1_b_1 |</doc>
 </kw>
 <kw name="Insert Document">
 <arguments>

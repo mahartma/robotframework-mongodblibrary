@@ -1,12 +1,14 @@
 package de.codecentric.robot.mongodblibrary.keywords;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Iterator;
+
+import org.apache.commons.io.IOUtils;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
@@ -96,7 +98,7 @@ public class MongodbLibrary {
 	 */
 	public void importDocuments(String collectionName, String file) {
 		try {
-			String documents = readFileAsString(file);
+			String documents = IOUtils.toString(new FileReader(file));
 			DBObject dbObject = (DBObject) JSON.parse(documents);
 			if (dbObject instanceof BasicDBList) {
 				Iterator<Object> jsonIterator = ((BasicDBList) dbObject).iterator();
@@ -125,7 +127,7 @@ public class MongodbLibrary {
 	 */
 	public void importDocumentsRowSeperated(String collectionName, String file) {
 		try {
-			String documents = readFileAsString(file);
+			String documents = IOUtils.toString(new FileReader(file));
 			String[] documentsAsArray = documents.split("\n");
 			for (String json : documentsAsArray) {
 				db.getCollection(collectionName).insert((DBObject) JSON.parse(json));
@@ -291,26 +293,27 @@ public class MongodbLibrary {
 	public void documentShouldExist(String collectionName, String document) {
 		assertTrue("Document " + document + " does not exist in Collection " + collectionName + ".", this.db.getCollection(collectionName).find((DBObject) JSON.parse(document)).count() == 1);
 	}
+
+	/**
+	 *  Fails if the given index does not exist in the given collection.
+	 *  
+	 *  Arguments:
+	 *  - _collectionName_: the collection within the index should exist
+	 *  - _index_: the name of the index which should exist in the given collection
+	 *  
+	 *  Example:
+	 *  | Index Should Exist | myCol | a_1_b_1 |
+	 */
+	public void indexShouldExist(String collectionName, String indexName) {
+		for (DBObject index : this.db.getCollection(collectionName).getIndexInfo()) {
+			if(index.get("name").equals(indexName)) {
+				return;
+			}
+		}
+		fail("Index " + indexName + " does not exist in Collection " + collectionName + ".");		
+	}
 	
 	DB getDb() {
 		return db;
 	}
-	
-    private static String readFileAsString(String filePath) throws java.io.IOException {
-        StringBuffer fileData = new StringBuffer(1000);
-        BufferedReader reader = new BufferedReader(
-                new FileReader(filePath));
-        char[] buf = new char[1024];
-        int numRead=0;
-        while((numRead=reader.read(buf)) != -1){
-            String readData = String.valueOf(buf, 0, numRead);
-            fileData.append(readData);
-            buf = new char[1024];
-        }
-        reader.close();
-        return fileData.toString();
-    }
-
-
-
 }

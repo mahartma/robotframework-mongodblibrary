@@ -231,12 +231,28 @@ public class MongodbLibraryTest {
 	}
 
 	@Test(expected = AssertionError.class)
-	public void shouldFailIfDocumentExists() {
+	public void shouldFailIfDocumentNotExists() {
 		//given
 		db1.getCollection("testCol").insert(
 				(DBObject) JSON.parse("{say : 'Hello MongoDb!'}"));
 		//when
 		library.documentShouldExist("testCol", "{say : 'Hello MongoDb1!'}");
+	}
+	
+	@Test
+	public void shouldPassIfIndexExists() {
+		//given
+		db1.getCollection("testCol").ensureIndex((DBObject) JSON.parse("{a : 1, b : 1}"));
+		//when
+		library.indexShouldExist("testCol", "a_1_b_1");
+	}
+
+	@Test(expected = AssertionError.class)
+	public void shouldFailIfIndexNotExists() {
+		//given
+		db1.getCollection("testCol").ensureIndex((DBObject) JSON.parse("{a : 1, b : 1}"));
+		//when
+		library.indexShouldExist("testCol", "a_1_b_11");
 	}
 	
 	@After

@@ -1,1 +1,1 @@
-java -jar robot-bin/robotframework-2.7.5.jar -P target/classes -P robot-bin/junit-4.10.jar -P robot-bin/mongo-java-driver-2.10.0.jar -d target sample/mongodblibrarySample.txt
+java -jar robot-bin/robotframework-2.7.5.jar -P target/classes -P robot-bin/commons-io-1.3.2.jar -P robot-bin/junit-4.10.jar -P robot-bin/mongo-java-driver-2.10.0.jar -d target sample/mongodblibrarySample.txt
