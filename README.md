@@ -17,5 +17,5 @@ Dependencies
 Install
 -------
 - download [robotframework-mongodblibrary.jar](http://mahartma.github.com/robotframework-mongodblibrary/robotframework-mongodblibrary-0.1.jar)
-- add **robotframework-mongodblibrary.jar** and the **3rd party libs** to the CLASSPATH, start the mongoDB daemon and that's it!
+- add **robotframework-mongodblibrary.jar** and the **3rd party libs (Dependencies)** to the CLASSPATH, start the mongoDB daemon and that's it!
 - take a look at the sample test under **sample/mongodblibrarySample.txt**
