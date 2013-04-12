@@ -6,7 +6,29 @@ Please see the [Keyword-Documentation](http://mahartma.github.com/robotframework
 
 The library is written in Java using the MongoDB Java Driver.
 
-Take a look at the sample test: [**sample/mongodblibrarySample.txt**](https://github.com/mahartma/robotframework-mongodblibrary/blob/master/sample/mongodblibrarySample.txt)
+Sample test:
+
+```
+*** Settings ***
+Test Setup  Drop Database  robotdb1
+Library   de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary  localhost  robotdb1
+
+*** Test Cases ***
+should insert given document
+  Insert Document  myCollection  {say : 'Hello MongoDb!'}
+	Collection should Exist  myCollection
+	Document Should Exist  myCollection  {say : 'Hello MongoDb!'}
+should insert data from file
+	Import Documents  myCollection  sample/data.json
+	Collection should Exist  myCollection
+	Document Should Exist  myCollection  {name : 'Mike'}
+should insert data from file (row-seperated)
+	Import Documents Row Seperated  myCollection  sample/dataMultipleRows.json
+	Collection should Exist  myCollection
+	Document Should Exist  myCollection  {name : 'Mike'}
+	Document Should Exist  myCollection  {name : 'Tom'}
+	Document Should Exist  myCollection  {name : 'Eric'}
+```
 
 Dependencies
 ------------
