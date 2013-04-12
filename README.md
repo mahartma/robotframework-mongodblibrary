@@ -24,15 +24,20 @@ Install
 - start the Robot-Tests
 - this can also be done by a gradle task:
 ```groovy
+  configurations { 
+      robot
+  }
+
   dependencies {
-      compile group: 'junit', name: 'junit', version: "4.10"
-      compile group: 'org.apache.commons', name: 'commons-io', version: "1.3.2"
-      compile group: 'org.mongodb', name: 'mongo-java-driver', version: "2.10.0"
+      robot group: 'junit', name: 'junit', version: "4.10"
+      robot group: 'org.apache.commons', name: 'commons-io', version: "1.3.2"
+      robot group: 'org.mongodb', name: 'mongo-java-driver', version: "2.10.0"
       robot group: 'org.robotframework', name: 'robotframework', version: "2.7.5"
+      robot files("libs/robotframework-mongodblibrary.jar")
   }
 
   task(type : JavaExec, 'run tests') {
-      classpath = configurations.robot + configurations.compile + sourceSets.main.runtimeClasspath
+      classpath = configurations.robot
       main = 'org.robotframework.RobotFramework'
       args = [
           '-d',
