@@ -10,12 +10,12 @@ Sample test:
 
 ```
 *** Settings ***
-Test Setup  Drop Database  robotdb1
 Library   de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary  localhost  robotdb1
+Test Setup  Drop Database  robotdb1
 
 *** Test Cases ***
 should insert given document
-  Insert Document  myCollection  {say : 'Hello MongoDb!'}
+  	Insert Document  myCollection  {say : 'Hello MongoDb!'}
 	Collection should Exist  myCollection
 	Document Should Exist  myCollection  {say : 'Hello MongoDb!'}
 should insert data from file
