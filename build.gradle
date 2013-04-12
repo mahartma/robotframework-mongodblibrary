@@ -58,12 +58,3 @@ task(type : JavaExec, 'generate xml doc') {
 		'doc/libdoc/de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary.xml'
 	]
 }
-
-// maven-like test-stats
-test {
-	afterSuite { desc, result ->
-		if (!desc.parent) {
-			println "Results: ${result.resultType} (${result.testCount} tests run, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
-		}
-	}
-}
