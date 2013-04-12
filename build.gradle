@@ -1,4 +1,4 @@
-project.version = '1.0-SNAPSHOT'
+project.version = '0.2-SNAPSHOT'
 
 repositories { mavenCentral() }
 
