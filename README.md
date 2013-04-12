@@ -6,13 +6,13 @@ Please see the [Keyword-Documentation](http://mahartma.github.com/robotframework
 
 The library is written in Java using the MongoDB Java Driver.
 
-Requirements
+Dependencies
 ------------
 - [Robotframework >= 2.7.5 (with Jython)](http://code.google.com/p/robotframework/downloads/list)
 - [MongoDB Java Driver >= 2.10.0](http://central.maven.org/maven2/org/mongodb/mongo-java-driver)
 - [apache-commons-io 1.3.2](http://search.maven.org/remotecontent?filepath=org/apache/commons/commons-io/1.3.2/commons-io-1.3.2.jar)
 - [junit 4.10](http://search.maven.org/remotecontent?filepath=junit/junit/4.10/junit-4.10.jar)
-- [MongoDB Server >= 2.10.0](http://www.mongodb.org/downloads)
+- [MongoDB Server >= 2.2.1](http://www.mongodb.org/downloads)
 
 Install
 -------
