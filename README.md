@@ -20,11 +20,11 @@ should insert given document
 	Document Should Exist  myCollection  {say : 'Hello MongoDb!'}
 should insert data from file
 	Import Documents  myCollection  sample/data.json
-	Collection should Exist  myCollection
+	Collection Should Exist  myCollection
 	Document Should Exist  myCollection  {name : 'Mike'}
 should insert data from file (row-seperated)
 	Import Documents Row Seperated  myCollection  sample/dataMultipleRows.json
-	Collection should Exist  myCollection
+	Collection Should Exist  myCollection
 	Document Should Exist  myCollection  {name : 'Mike'}
 	Document Should Exist  myCollection  {name : 'Tom'}
 	Document Should Exist  myCollection  {name : 'Eric'}
