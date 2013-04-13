@@ -1,5 +1,6 @@
 package de.codecentric.robot.mongodblibrary.keywords;
 
+import static java.lang.Integer.parseInt;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -30,40 +31,19 @@ public class MongodbLibrary {
 	private DB db;
 
 	/**
-	 * Connecting to a local mongodb instance.
+	 * connects to the given MongoDB-Server
+	 * 
+	 * Arguments: 
+	 * - _server_: server to connect
+	 * - _port_: port to connect
+	 * - _database_: database to connect
+	 * 
+	 * Example: 
+	 * | Connect To Server | localhost | 27017 | robotdb |
 	 */
-	public MongodbLibrary() {
-		this("localhost", 27017, "robotdb");
-
-	}
-
-	/**
-	 * Connecting to a specific mongodb server.
-	 */
-	public MongodbLibrary(String server) {
-		this(server, 27017, "robotdb");
-	}
-
-	/**
-	 * Connecting to a specific mongodb server with given database.
-	 */
-	public MongodbLibrary(String server, String database) {
-		this(server, 27017, database);
-	}
-
-	/**
-	 * Connecting to a specific mongodb server with given port.
-	 */
-	public MongodbLibrary(String server, int port) {
-		this(server, port, "robotdb");
-	}
-
-	/**
-	 * Connecting to a specific mongodb server with given port and database.
-	 */
-	public MongodbLibrary(String server, int port, String database) {
+	public void connectToServer(String server, String port, String database) {
 		try {
-			mongoClient = new MongoClient(server, port);
+			mongoClient = new MongoClient(server, parseInt(port));
 			db = mongoClient.getDB(database);
 		} catch (UnknownHostException e) {
 			throw new MongodbLibraryException("error connecting mongodb", e);
@@ -191,7 +171,7 @@ public class MongodbLibrary {
 	 * Example: 
 	 * | Create Collection | myCol | {capped:true, size:10000} |
 	 */
-	public void createCollection(String collectionName, String options) {
+	public void createCollectionWithOptions(String collectionName, String options) {
 		this.db.createCollection(collectionName, (DBObject) JSON.parse(options));
 	}
 	
@@ -233,7 +213,7 @@ public class MongodbLibrary {
 	 * Example:
 	 * | Ensure Index | myCol | {name : 1, street : 1} |
 	 */
-	public void ensureIndex(String indexName, String collectionName, String keys
+	public void ensureIndexWithName(String indexName, String collectionName, String keys
 			) {
 		this.db.getCollection(collectionName).ensureIndex((DBObject) JSON.parse(keys), indexName);
 	}

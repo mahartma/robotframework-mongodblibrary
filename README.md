@@ -10,12 +10,12 @@ Sample test:
 
 ```
 *** Settings ***
-Library   de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary  localhost  robotdb1
-Test Setup  Drop Database  robotdb1
+Library   de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary
+Test Setup  Setup MongoDB
 
 *** Test Cases ***
 should insert given document
-  	Insert Document  myCollection  {say : 'Hello MongoDb!'}
+	Insert Document  myCollection  {say : 'Hello MongoDb!'}
 	Collection Should Exist  myCollection
 	Document Should Exist  myCollection  {say : 'Hello MongoDb!'}
 should insert data from file
@@ -28,6 +28,11 @@ should insert data from file (row-seperated)
 	Document Should Exist  myCollection  {name : 'Mike'}
 	Document Should Exist  myCollection  {name : 'Tom'}
 	Document Should Exist  myCollection  {name : 'Eric'}
+
+*** Keywords ***
+Setup MongoDB
+	Connect To Server  localhost  27017  robotdb1
+	Drop Database  robotdb1
 ```
 
 Dependencies

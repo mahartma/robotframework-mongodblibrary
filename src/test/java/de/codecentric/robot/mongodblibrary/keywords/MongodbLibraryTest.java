@@ -34,7 +34,8 @@ public class MongodbLibraryTest {
 	
 	@Before
 	public void setUp() throws UnknownHostException {
-		library = new MongodbLibrary("localhost", "robotdb1");
+		library = new MongodbLibrary();
+		library.connectToServer("localhost", "27017", "robotdb1");
 		mongoClient = new MongoClient("localhost" , 27017 );
 		db1 = mongoClient.getDB("robotdb1");
 		mongoClient.getDB("robotdb2");
@@ -134,7 +135,7 @@ public class MongodbLibraryTest {
 		//given
 		String collectionName = "newCollection";
 		//when
-		library.createCollection(collectionName, "{size : 1000}");
+		library.createCollectionWithOptions(collectionName, "{size : 1000}");
 		//then
 		assertThat(db1.getCollectionNames().contains(collectionName), is(true));
 	}
@@ -177,7 +178,7 @@ public class MongodbLibraryTest {
 		String collectionName = "testCol";
 		String indexName = "myIndex";
 		//when
-		library.ensureIndex(indexName, collectionName, "{a : 1, b : -1}");
+		library.ensureIndexWithName(indexName, collectionName, "{a : 1, b : -1}");
 		//then
 		List<DBObject> indexInfo = db1.getCollection(collectionName).getIndexInfo();
 		String name = (String) indexInfo.get(1).get("name");

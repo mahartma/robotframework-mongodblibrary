@@ -1,42 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<keywordspec generated="20130302 05:29:12" format="ROBOT" type="library" name="de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary">
+<keywordspec generated="20130414 00:24:21" format="ROBOT" type="library" name="de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary">
 <version></version>
 <scope>global</scope>
 <namedargs>no</namedargs>
 <doc>This library supports mongodb-related testing using the Robot Framework.</doc>
-<init>
-<arguments>
-</arguments>
-<doc>Connecting to a local mongodb instance.</doc>
-</init>
-<init>
-<arguments>
-<arg>server</arg>
-</arguments>
-<doc>Connecting to a specific mongodb server.</doc>
-</init>
-<init>
-<arguments>
-<arg>server</arg>
-<arg>database</arg>
-</arguments>
-<doc>Connecting to a specific mongodb server with given database.</doc>
-</init>
-<init>
-<arguments>
-<arg>server</arg>
-<arg>port</arg>
-</arguments>
-<doc>Connecting to a specific mongodb server with given port.</doc>
-</init>
-<init>
-<arguments>
-<arg>server</arg>
-<arg>port</arg>
-<arg>database</arg>
-</arguments>
-<doc>Connecting to a specific mongodb server with given port and database.</doc>
-</init>
 <kw name="Collection Should Exist">
 <arguments>
 <arg>collectionName</arg>
@@ -49,19 +16,21 @@ Arguments:
 Example:
 | Collection Should Exist | myCol |</doc>
 </kw>
-<kw name="Create Collection">
+<kw name="Connect To Server">
 <arguments>
-<arg>collectionName</arg>
-<arg>options</arg>
+<arg>server</arg>
+<arg>port</arg>
+<arg>database</arg>
 </arguments>
-<doc>Creates a collection with the given name and options.
+<doc>connects to the given MongoDB-Server
 
 Arguments:
-- _collectionName_: the name of the collection to create
-- _options_: the options of the collection
+- _server_: server to connect
+- _port_: port to connect
+- _database_: database to connect
 
 Example:
-| Create Collection | myCol | {capped:true, size:10000} |</doc>
+| Connect To Server | localhost | 27017 | robotdb |</doc>
 </kw>
 <kw name="Create Collection">
 <arguments>
@@ -74,6 +43,20 @@ Arguments:
 
 Example:
 | Create Collection | myCol |</doc>
+</kw>
+<kw name="Create Collection With Options">
+<arguments>
+<arg>collectionName</arg>
+<arg>options</arg>
+</arguments>
+<doc>Creates a collection with the given name and options.
+
+Arguments:
+- _collectionName_: the name of the collection to create
+- _options_: the options of the collection
+
+Example:
+| Create Collection | myCol | {capped:true, size:10000} |</doc>
 </kw>
 <kw name="Database Should Exist">
 <arguments>
@@ -140,7 +123,7 @@ Arguments:
 Example:
 | Ensure Index | myCol | {name : 1, street : 1} |</doc>
 </kw>
-<kw name="Ensure Index">
+<kw name="Ensure Index With Name">
 <arguments>
 <arg>indexName</arg>
 <arg>collectionName</arg>
