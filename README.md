@@ -16,7 +16,7 @@ Test Setup  Drop Database  robotdb1
 *** Test Cases ***
 should insert given document
   	Insert Document  myCollection  {say : 'Hello MongoDb!'}
-	Collection should Exist  myCollection
+	Collection Should Exist  myCollection
 	Document Should Exist  myCollection  {say : 'Hello MongoDb!'}
 should insert data from file
 	Import Documents  myCollection  sample/data.json
