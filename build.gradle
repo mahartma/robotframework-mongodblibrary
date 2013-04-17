@@ -1,4 +1,4 @@
-project.version = '0.2-SNAPSHOT'
+project.version = '0.1'
 
 repositories { mavenCentral() }
 
@@ -18,6 +18,17 @@ dependencies {
 	robot group: 'org.robotframework', name: 'robotframework', version: "2.7.5"
 	robot group: 'org.robotframework', name: 'javalib-core', version: "1.0.3"
 	docs files("${System.getProperty('java.home')}/../lib/tools.jar")
+}
+
+jar {
+	exclude('META-INF/*.RSA') 
+	exclude('META-INF/*.SF') 
+	from { configurations.compile.collect { 
+			if (!it.isDirectory()) {
+				zipTree(it) 
+			}
+		}
+	}
 }
 
 /*

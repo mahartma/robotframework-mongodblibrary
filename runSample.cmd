@@ -1,1 +1,4 @@
-java -jar robot-bin/robotframework-2.7.5.jar -P target/classes -P robot-bin/commons-io-1.3.2.jar -P robot-bin/junit-4.10.jar -P robot-bin/mongo-java-driver-2.10.0.jar -d target sample/mongodblibrarySample.txt
+REM ======= LOCAL =======
+java -jar robot-bin/robotframework-2.7.5.jar -P build/libs/robotframework-mongodblibrary-0.2-SNAPSHOT.jar -d target sample/mongodblibrarySample.txt
+REM ======= REMOTE =======
+java -jar robot-bin/robotframework-2.7.5.jar -d target sample/remoteMongodblibrarySample.txt
