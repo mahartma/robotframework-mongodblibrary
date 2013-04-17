@@ -20,7 +20,11 @@ dependencies {
 	docs files("${System.getProperty('java.home')}/../lib/tools.jar")
 }
 
-jar {
+/*
+ *  tasks
+ */
+task(type : Jar, 'jar with dependencies') {
+	classifier = 'with-dependencies'
 	exclude('META-INF/*.RSA') 
 	exclude('META-INF/*.SF') 
 	from { configurations.compile.collect { 
@@ -29,11 +33,11 @@ jar {
 			}
 		}
 	}
+	from { sourceSets.main.output }
 }
 
-/*
- *  tasks
- */
+assemble.dependsOn 'jar with dependencies'
+
 task(type : JavaExec, 'run sample tests') {
 	classpath = configurations.robot + configurations.compile + sourceSets.main.runtimeClasspath
 	main = 'org.robotframework.RobotFramework'
