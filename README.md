@@ -47,7 +47,7 @@ Install
 -------
 - download [robotframework-mongodblibrary.jar](http://mahartma.github.com/robotframework-mongodblibrary/robotframework-mongodblibrary-0.1.jar)
 - start the mongoDB daemon
-- add **robotframework-mongodblibrary.jar** and the **3rd party libs (see dependencies)** to the CLASSPATH
+- add **robotframework-mongodblibrary-0.1-with-dependencies.jar** to the CLASSPATH (see runSample.cmd)
 - start the Robot-Tests
 - this can also be done by a gradle task:
 ```groovy
