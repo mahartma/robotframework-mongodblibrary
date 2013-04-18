@@ -56,10 +56,10 @@ public class MongodbLibraryRemoteServer {
 	private static void displayUsage() {
 		System.out.println("\n" + MESSAGE + "\n");
 		System.out.println("Usage Info:\n");
-		System.out.println("Ensure that the robotframework-mongodblibrary-0.1.jar JAR and your MongoDB Java Driver JAR is in the classpath, e.g.:\n");
-		System.out.println("set CLASSPATH=%CLASSPATH%;./robotframework-mongodblibrary-0.1.jar;./mongo-java-driver-2.10.0.jar\n\n");
+		System.out.println("Ensure that the robotframework-mongodblibrary-0.1-with-dependencies.jar JAR and your MongoDB Java Driver JAR is in the classpath, e.g.:\n");
+		System.out.println("set CLASSPATH=%CLASSPATH%;./robotframework-mongodblibrary-0.1-with-dependencies.jar;./mongo-java-driver-2.10.0.jar\n\n");
 		System.out.println("The start the server as follows:\n");
-		System.out.println("java org.robot.database.server.RemoteServer --port <port> --help");
+		System.out.println("java de.codecentric.robot.mongodblibrary.server.MongodbLibraryRemoteServer --port <port> --help");
 		System.out.println("");
 	}
 }
