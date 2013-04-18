@@ -56,11 +56,7 @@ Install
   }
 
   dependencies {
-      robot group: 'junit', name: 'junit', version: "4.10"
-      robot group: 'org.apache.commons', name: 'commons-io', version: "1.3.2"
-      robot group: 'org.mongodb', name: 'mongo-java-driver', version: "2.10.0"
-      robot group: 'org.robotframework', name: 'robotframework', version: "2.7.5"
-      robot files("libs/robotframework-mongodblibrary.jar")
+      robot files("libs/robotframework-mongodblibrary-0.1-with-dependencies.jar")
   }
 
   task(type : JavaExec, 'run tests') {
