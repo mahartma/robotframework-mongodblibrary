@@ -69,3 +69,35 @@ Install
       ]
   }
 ```
+
+Remote-Library
+--------------
+- the library also contains the Remote-Server from the Robotframework for executing the keywords on dedicated JVM (see [Robot-Remote-Library](http://code.google.com/p/robotframework/wiki/RemoteLibrary))
+- it's very useful when you want to use python in the main suite instead of jython
+- see the example below:
+```
+*** Settings ***
+Library   Remote    http://localhost:8270
+Test Setup  Setup MongoDB
+
+*** Test Cases ***
+should insert given document
+	Insert Document  myCollection  {say : 'Hello MongoDb!'}
+	Collection Should Exist  myCollection
+	Document Should Exist  myCollection  {say : 'Hello MongoDb!'}
+should insert data from file
+	Import Documents  myCollection  sample/data.json
+	Collection Should Exist  myCollection
+	Document Should Exist  myCollection  {name : 'Mike'}
+should insert data from file (row-seperated)
+	Import Documents Row Seperated  myCollection  sample/dataMultipleRows.json
+	Collection Should Exist  myCollection
+	Document Should Exist  myCollection  {name : 'Mike'}
+	Document Should Exist  myCollection  {name : 'Tom'}
+	Document Should Exist  myCollection  {name : 'Eric'}
+
+*** Keywords ***
+Setup MongoDB
+	Connect To Server  localhost  27017  robotdb1
+	Drop Database  robotdb1
+```
