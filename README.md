@@ -74,7 +74,9 @@ Remote-Library
 --------------
 - the library also contains the Remote-Server from the Robotframework for executing the keywords on dedicated JVM (see [Robot-Remote-Library](http://code.google.com/p/robotframework/wiki/RemoteLibrary))
 - it's very useful when you want to use python in the main suite instead of jython
+- the server can be started with **java -jar build/libs/robotframework-mongodblibrary-0.1-with-dependencies.jar**
 - see the example below:
+
 ```
 *** Settings ***
 Library   Remote    http://localhost:8270
