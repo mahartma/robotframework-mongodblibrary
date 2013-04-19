@@ -34,6 +34,7 @@ task(type : Jar, 'jar with dependencies') {
 		}
 	}
 	from { sourceSets.main.output }
+	manifest { attributes 'Main-Class': 'de.codecentric.robot.mongodblibrary.server.MongodbLibraryRemoteServer' }
 }
 
 assemble.dependsOn 'jar with dependencies'
