@@ -11,6 +11,8 @@ Sample test:
 ```
 *** Settings ***
 Library   de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary
+Suite Setup  Startup Embedded  V2_4_1
+Suite TearDown  Shutdown Embedded
 Test Setup  Setup MongoDB
 
 *** Test Cases ***
@@ -42,12 +44,13 @@ Dependencies
 - [apache-commons-io 1.3.2](http://search.maven.org/remotecontent?filepath=org/apache/commons/commons-io/1.3.2/commons-io-1.3.2.jar)
 - [junit 4.10](http://search.maven.org/remotecontent?filepath=junit/junit/4.10/junit-4.10.jar)
 - [MongoDB Server >= 2.2.1](http://www.mongodb.org/downloads)
+- [Embedded MongoDB >= 1.31](https://github.com/flapdoodle-oss/embedmongo.flapdoodle.de)
 
 Install
 -------
-- download [robotframework-mongodblibrary-0.1-with-dependencies.jar](http://mahartma.github.com/robotframework-mongodblibrary/robotframework-mongodblibrary-0.1-with-dependencies.jar)
+- download [robotframework-mongodblibrary-0.2-with-dependencies.jar](http://mahartma.github.com/robotframework-mongodblibrary/robotframework-mongodblibrary-0.2-with-dependencies.jar)
 - start the mongoDB daemon
-- add **robotframework-mongodblibrary-0.1-with-dependencies.jar** to the CLASSPATH (see runSample.cmd)
+- add **robotframework-mongodblibrary-0.2-with-dependencies.jar** to the CLASSPATH (see runSample.cmd)
 - start the Robot-Tests
 - this can also be done by a gradle task:
 ```groovy
@@ -56,7 +59,7 @@ Install
   }
 
   dependencies {
-      robot files("libs/robotframework-mongodblibrary-0.1-with-dependencies.jar")
+      robot files("libs/robotframework-mongodblibrary-0.2-with-dependencies.jar")
   }
 
   task(type : JavaExec, 'run tests') {
@@ -74,12 +77,14 @@ Remote-Library
 --------------
 - the library also contains the Remote-Server from the Robotframework for executing the keywords on a dedicated JVM (see [Robot-Remote-Library](http://code.google.com/p/robotframework/wiki/RemoteLibrary))
 - it's very useful when you want to use python in the main suite instead of jython
-- the server can be started with **java -jar build/libs/robotframework-mongodblibrary-0.1-with-dependencies.jar**
+- the server can be started with **java -jar build/libs/robotframework-mongodblibrary-0.2-with-dependencies.jar**
 - see the example below:
 
 ```
 *** Settings ***
 Library   Remote    http://localhost:8270
+Suite Setup  Startup Embedded  V2_4_1
+Suite TearDown  Shutdown Embedded
 Test Setup  Setup MongoDB
 
 *** Test Cases ***
