@@ -49,7 +49,7 @@ Dependencies
 Install
 -------
 - download [robotframework-mongodblibrary-0.2-with-dependencies.jar](http://mahartma.github.com/robotframework-mongodblibrary/robotframework-mongodblibrary-0.2-with-dependencies.jar)
-- start the mongoDB daemon
+- start the mongoDB daemon or use the embedded keywords ( _Startup Embedded_, _Shutdown Embedded_ )
 - add **robotframework-mongodblibrary-0.2-with-dependencies.jar** to the CLASSPATH (see runSample.cmd)
 - start the Robot-Tests
 - this can also be done by a gradle task:
