@@ -1,5 +1,6 @@
 package de.codecentric.robot.mongodblibrary.keywords;
 
+import static de.flapdoodle.embed.mongo.distribution.Version.valueOf;
 import static java.lang.Integer.parseInt;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -19,6 +20,11 @@ import com.mongodb.MongoClient;
 import com.mongodb.util.JSON;
 
 import de.codecentric.robot.mongodblibrary.MongodbLibraryException;
+import de.flapdoodle.embed.mongo.MongodExecutable;
+import de.flapdoodle.embed.mongo.MongodStarter;
+import de.flapdoodle.embed.mongo.config.MongodConfig;
+import de.flapdoodle.embed.mongo.distribution.Version;
+import de.flapdoodle.embed.process.runtime.Network;
 
 /**
  * This library supports mongodb-related testing using the Robot Framework.
@@ -27,9 +33,59 @@ public class MongodbLibrary {
 
 	public static final String ROBOT_LIBRARY_SCOPE = "GLOBAL";
 
+	private static final int MONGO_DEFAULT_PORT = 27020;
+
 	private MongoClient mongoClient;
 	private DB db;
+	private MongodExecutable mongodExecutable;
 
+	/**
+	 * starts a MongoDB-Server in the given version
+	 * 
+	 * Arguments: 
+	 * - _version_: MongoDB-Version
+	 * 
+	 * Example: 
+	 * | Startup Embedded | V2_4_1 |
+	 */
+	public void startupEmbedded(String version) throws IOException {
+		MongodConfig mongodConfig = new MongodConfig(valueOf(version), MONGO_DEFAULT_PORT, Network.localhostIsIPv6());
+		MongodStarter runtime = MongodStarter.getDefaultInstance();
+		mongodExecutable = null;
+		mongodExecutable = runtime.prepare(mongodConfig);
+		mongodExecutable.start();
+	}
+
+	/**
+	 * starts a MongoDB-Server in the given version on the given port
+	 * 
+	 * Arguments: 
+	 * - _version_: MongoDB-Version
+	 * - _port_: port to use
+	 * 
+	 * Example: 
+	 * | Startup Embedded | V2_4_1 | 27042 |
+	 */
+	public void startupEmbeddedOnPort(String version, String port) throws IOException {
+		MongodConfig mongodConfig = new MongodConfig(Version.valueOf(version), Integer.parseInt(port), Network.localhostIsIPv6());
+		MongodStarter runtime = MongodStarter.getDefaultInstance();
+		mongodExecutable = null;
+		mongodExecutable = runtime.prepare(mongodConfig);
+		mongodExecutable.start();
+	}
+	
+	/**
+	 * stops the previously started MongoDB-Server (counter-part to the keywords: _Startup Embedded_ and _Startup Embedded On Port_)
+	 * 
+	 * Example: 
+	 * | Shutdown Embedded |
+	 */
+	public void shutdownEmbedded() {
+		if (mongodExecutable != null) {
+			mongodExecutable.stop();
+		}
+	}
+	
 	/**
 	 * connects to the given MongoDB-Server
 	 * 

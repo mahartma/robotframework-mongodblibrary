@@ -9,7 +9,9 @@ import java.net.UnknownHostException;
 import java.util.List;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.mongodb.BasicDBObject;
@@ -18,6 +20,12 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.util.JSON;
+
+import de.flapdoodle.embed.mongo.MongodExecutable;
+import de.flapdoodle.embed.mongo.MongodStarter;
+import de.flapdoodle.embed.mongo.config.MongodConfig;
+import de.flapdoodle.embed.mongo.distribution.Version;
+import de.flapdoodle.embed.process.runtime.Network;
 
 /**
  * 
@@ -28,17 +36,42 @@ import com.mongodb.util.JSON;
  */
 public class MongodbLibraryTest {
 
+	private static final Integer MONGO_TEST_PORT = 27020;
+	
 	private MongodbLibrary library;
 	private MongoClient mongoClient;
 	private DB db1;
 	
+	private static MongodExecutable mongodExecutable;
+	
+	@BeforeClass
+	public static void startMongoDB() throws IOException {
+		MongodConfig mongodConfig = new MongodConfig(Version.V2_4_1, MONGO_TEST_PORT, Network.localhostIsIPv6());
+		MongodStarter runtime = MongodStarter.getDefaultInstance();
+		mongodExecutable = null;
+		mongodExecutable = runtime.prepare(mongodConfig);
+		mongodExecutable.start();
+	}
+	
+	@AfterClass
+	public static void shutdownMongoDB() {
+		mongodExecutable.stop();
+	}
+	
 	@Before
 	public void setUp() throws UnknownHostException {
 		library = new MongodbLibrary();
-		library.connectToServer("localhost", "27017", "robotdb1");
-		mongoClient = new MongoClient("localhost" , 27017 );
+		library.connectToServer("localhost", MONGO_TEST_PORT.toString(), "robotdb1");
+		mongoClient = new MongoClient("localhost" , MONGO_TEST_PORT );
 		db1 = mongoClient.getDB("robotdb1");
 		mongoClient.getDB("robotdb2");
+	}
+	
+	@After
+	public void tearDown() {
+		db1.getCollection("testCol").drop();
+		mongoClient.dropDatabase("robotdb1");
+		mongoClient.dropDatabase("robotdb2");
 	}
 	
 	@Test
@@ -255,12 +288,4 @@ public class MongodbLibraryTest {
 		//when
 		library.indexShouldExist("testCol", "a_1_b_11");
 	}
-	
-	@After
-	public void tearDown() {
-		db1.getCollection("testCol").drop();
-		mongoClient.dropDatabase("robotdb1");
-		mongoClient.dropDatabase("robotdb2");
-	}
-
 }

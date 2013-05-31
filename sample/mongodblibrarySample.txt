@@ -1,5 +1,7 @@
 *** Settings ***
 Library   de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary
+Suite Setup  Startup Embedded  V2_4_1
+Suite TearDown  Shutdown Embedded
 Test Setup  Setup MongoDB
 
 *** Test Cases ***
@@ -20,5 +22,5 @@ should insert data from file (row-seperated)
 
 *** Keywords ***
 Setup MongoDB
-	Connect To Server  localhost  27017  robotdb1
+	Connect To Server  localhost  27020  robotdb1
 	Drop Database  robotdb1
