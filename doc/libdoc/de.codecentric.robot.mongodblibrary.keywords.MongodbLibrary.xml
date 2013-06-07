@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<keywordspec generated="20130531 15:51:50" format="ROBOT" type="library" name="de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary">
+<keywordspec generated="20130605 02:00:23" format="ROBOT" type="library" name="de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary">
 <version></version>
 <scope>global</scope>
 <namedargs>no</namedargs>
@@ -214,7 +214,7 @@ Example:
 <kw name="Shutdown Embedded">
 <arguments>
 </arguments>
-<doc>stops the previously started MongoDB-Server (counter-part to the keywords: _Startup Embedded_ and _Startup Embedded On Port_)
+<doc>stops the previously started MongoDB-Server (counter-part to the keywords: `Startup Embedded` and `Startup Embedded On Port`)
 
 Example:
 | Shutdown Embedded |</doc>
@@ -229,7 +229,7 @@ Arguments:
 - _version_: MongoDB-Version
 
 Example:
-| Startup Embedded | V2_4_1 |</doc>
+| Startup Embedded | 2.4.1 |</doc>
 </kw>
 <kw name="Startup Embedded On Port">
 <arguments>
@@ -243,7 +243,7 @@ Arguments:
 - _port_: port to use
 
 Example:
-| Startup Embedded | V2_4_1 | 27042 |</doc>
+| Startup Embedded | 2.4.1 | 27042 |</doc>
 </kw>
 <kw name="Use Database">
 <arguments>

@@ -1,6 +1,7 @@
 package de.codecentric.robot.mongodblibrary.keywords;
 
-import static de.flapdoodle.embed.mongo.distribution.Version.valueOf;
+import static com.mongodb.util.JSON.parse;
+import static de.flapdoodle.embed.process.runtime.Network.localhostIsIPv6;
 import static java.lang.Integer.parseInt;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -23,8 +24,7 @@ import de.codecentric.robot.mongodblibrary.MongodbLibraryException;
 import de.flapdoodle.embed.mongo.MongodExecutable;
 import de.flapdoodle.embed.mongo.MongodStarter;
 import de.flapdoodle.embed.mongo.config.MongodConfig;
-import de.flapdoodle.embed.mongo.distribution.Version;
-import de.flapdoodle.embed.process.runtime.Network;
+import de.flapdoodle.embed.process.distribution.GenericVersion;
 
 /**
  * This library supports mongodb-related testing using the Robot Framework.
@@ -46,12 +46,11 @@ public class MongodbLibrary {
 	 * - _version_: MongoDB-Version
 	 * 
 	 * Example: 
-	 * | Startup Embedded | V2_4_1 |
+	 * | Startup Embedded | 2.4.1 |
 	 */
 	public void startupEmbedded(String version) throws IOException {
-		MongodConfig mongodConfig = new MongodConfig(valueOf(version), MONGO_DEFAULT_PORT, Network.localhostIsIPv6());
+		MongodConfig mongodConfig = new MongodConfig(new GenericVersion(version), MONGO_DEFAULT_PORT, localhostIsIPv6());
 		MongodStarter runtime = MongodStarter.getDefaultInstance();
-		mongodExecutable = null;
 		mongodExecutable = runtime.prepare(mongodConfig);
 		mongodExecutable.start();
 	}
@@ -64,18 +63,17 @@ public class MongodbLibrary {
 	 * - _port_: port to use
 	 * 
 	 * Example: 
-	 * | Startup Embedded | V2_4_1 | 27042 |
+	 * | Startup Embedded | 2.4.1 | 27042 |
 	 */
 	public void startupEmbeddedOnPort(String version, String port) throws IOException {
-		MongodConfig mongodConfig = new MongodConfig(Version.valueOf(version), Integer.parseInt(port), Network.localhostIsIPv6());
+		MongodConfig mongodConfig = new MongodConfig(new GenericVersion(version), parseInt(port), localhostIsIPv6());
 		MongodStarter runtime = MongodStarter.getDefaultInstance();
-		mongodExecutable = null;
 		mongodExecutable = runtime.prepare(mongodConfig);
 		mongodExecutable.start();
 	}
 	
 	/**
-	 * stops the previously started MongoDB-Server (counter-part to the keywords: _Startup Embedded_ and _Startup Embedded On Port_)
+	 * stops the previously started MongoDB-Server (counter-part to the keywords: `Startup Embedded` and `Startup Embedded On Port`)
 	 * 
 	 * Example: 
 	 * | Shutdown Embedded |
@@ -119,7 +117,7 @@ public class MongodbLibrary {
 	public void insertDocument(String collectionName,
 			String jsonString) {
 		db.getCollection(collectionName).insert(
-				(DBObject) JSON.parse(jsonString));
+				(DBObject) parse(jsonString));
 	}
 	
 	/**
@@ -135,7 +133,7 @@ public class MongodbLibrary {
 	public void importDocuments(String collectionName, String file) {
 		try {
 			String documents = IOUtils.toString(new FileReader(file));
-			DBObject dbObject = (DBObject) JSON.parse(documents);
+			DBObject dbObject = (DBObject) parse(documents);
 			if (dbObject instanceof BasicDBList) {
 				Iterator<Object> jsonIterator = ((BasicDBList) dbObject).iterator();
 				while(jsonIterator.hasNext()) {

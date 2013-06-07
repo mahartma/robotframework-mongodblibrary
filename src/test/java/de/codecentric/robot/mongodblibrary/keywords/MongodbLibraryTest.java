@@ -24,7 +24,7 @@ import com.mongodb.util.JSON;
 import de.flapdoodle.embed.mongo.MongodExecutable;
 import de.flapdoodle.embed.mongo.MongodStarter;
 import de.flapdoodle.embed.mongo.config.MongodConfig;
-import de.flapdoodle.embed.mongo.distribution.Version;
+import de.flapdoodle.embed.process.distribution.GenericVersion;
 import de.flapdoodle.embed.process.runtime.Network;
 
 /**
@@ -46,9 +46,8 @@ public class MongodbLibraryTest {
 	
 	@BeforeClass
 	public static void startMongoDB() throws IOException {
-		MongodConfig mongodConfig = new MongodConfig(Version.V2_4_1, MONGO_TEST_PORT, Network.localhostIsIPv6());
+		MongodConfig mongodConfig = new MongodConfig(new GenericVersion("2.4.4"), MONGO_TEST_PORT, Network.localhostIsIPv6());
 		MongodStarter runtime = MongodStarter.getDefaultInstance();
-		mongodExecutable = null;
 		mongodExecutable = runtime.prepare(mongodConfig);
 		mongodExecutable.start();
 	}

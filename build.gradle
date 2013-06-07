@@ -21,9 +21,6 @@ dependencies {
 	docs files("${System.getProperty('java.home')}/../lib/tools.jar")
 }
 
-/*
- *  tasks
- */
 task(type : Jar, 'jar with dependencies') {
 	classifier = 'with-dependencies'
 	exclude('META-INF/*.RSA') 
