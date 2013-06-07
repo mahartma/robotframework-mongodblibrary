@@ -11,7 +11,7 @@ Sample test:
 ```
 *** Settings ***
 Library   de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary
-Suite Setup  Startup Embedded  V2_4_1
+Suite Setup  Startup Embedded  2.4.1
 Suite TearDown  Shutdown Embedded
 Test Setup  Setup MongoDB
 
@@ -83,7 +83,7 @@ Remote-Library
 ```
 *** Settings ***
 Library   Remote    http://localhost:8270
-Suite Setup  Startup Embedded  V2_4_1
+Suite Setup  Startup Embedded  2.4.1
 Suite TearDown  Shutdown Embedded
 Test Setup  Setup MongoDB
 
