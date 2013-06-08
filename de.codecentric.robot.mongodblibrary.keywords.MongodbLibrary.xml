@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<keywordspec generated="20130605 02:00:23" format="ROBOT" type="library" name="de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary">
+<keywordspec generated="20130609 00:51:23" format="ROBOT" type="library" name="de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary">
 <version></version>
 <scope>global</scope>
 <namedargs>no</namedargs>
@@ -155,6 +155,60 @@ Arguments:
 Example:
 | Ensure Index | myCol | {name : 1, street : 1} |</doc>
 </kw>
+<kw name="Get All Records">
+<arguments>
+<arg>collectionName</arg>
+</arguments>
+<doc>Returns all records from the given collection.
+
+Arguments:
+- _collectionName_: the name of the collection
+
+Example:
+| Get All Records | myCol |</doc>
+</kw>
+<kw name="Get Collection Count">
+<arguments>
+<arg>collectionName</arg>
+</arguments>
+<doc>Returns the number of records in the given collection.
+
+Arguments:
+- _collectionName_: the name of the collection
+
+Example:
+| Get Collection Count | myCol |</doc>
+</kw>
+<kw name="Get Collections">
+<arguments>
+</arguments>
+<doc>Returns the names of the collections from the connected database.
+
+Example:
+| Get Collections |</doc>
+</kw>
+<kw name="Get Databases">
+<arguments>
+</arguments>
+<doc>Returns the name of the databases from the server.
+
+Example:
+| Get Databases |</doc>
+</kw>
+<kw name="Get Records">
+<arguments>
+<arg>collectionName</arg>
+<arg>jsonString</arg>
+</arguments>
+<doc>Finds records in the given collection.
+
+Arguments:
+- _collectionName_: the name of the collection
+- _jsonString_: the records to find as JSON
+
+Example:
+| Get Records | myCol | { age : { $gte: 23 } } |</doc>
+</kw>
 <kw name="Import Documents">
 <arguments>
 <arg>collectionName</arg>
@@ -210,6 +264,32 @@ Arguments:
 
 Example:
 | Insert Document | myCollection | {say : 'Hello MongoDB!'} |</doc>
+</kw>
+<kw name="Remove All Records">
+<arguments>
+<arg>collectionName</arg>
+</arguments>
+<doc>Removes all records in the given collection.
+
+Arguments:
+- _collectionName_: the name of the collection
+
+Example:
+| Remove All Records | myCol |</doc>
+</kw>
+<kw name="Remove Records">
+<arguments>
+<arg>collectionName</arg>
+<arg>jsonString</arg>
+</arguments>
+<doc>Removes some records in the given collection.
+
+Arguments:
+- _collectionName_: the name of the collection
+- _jsonString_: the records to remove as JSON
+
+Example:
+| Remove Records | myCol | { age : { $gte: 23 } } |</doc>
 </kw>
 <kw name="Shutdown Embedded">
 <arguments>
