@@ -59,7 +59,7 @@ Install
   }
 
   dependencies {
-      robot files("libs/robotframework-mongodblibrary-0.2-with-dependencies.jar")
+      robot files("libs/robotframework-mongodblibrary-0.2.1-with-dependencies.jar")
   }
 
   task(type : JavaExec, 'run tests') {
