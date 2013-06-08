@@ -62,7 +62,6 @@ public class MongodbLibraryTest {
 	public void setUp() throws UnknownHostException {
 		library = new MongodbLibrary();
 		library.connectToServer("localhost", MONGO_TEST_PORT.toString(), "robotdb1");
-		library.connectToDatabase("robotdb1");
 		mongoClient = new MongoClient("localhost" , MONGO_TEST_PORT );
 		db1 = mongoClient.getDB("robotdb1");
 		mongoClient.getDB("robotdb2");

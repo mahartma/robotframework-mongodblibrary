@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<keywordspec generated="20130609 00:42:44" format="ROBOT" type="library" name="de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary">
+<keywordspec generated="20130609 00:51:23" format="ROBOT" type="library" name="de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary">
 <version></version>
 <scope>global</scope>
 <namedargs>no</namedargs>
@@ -15,18 +15,6 @@ Arguments:
 
 Example:
 | Collection Should Exist | myCol |</doc>
-</kw>
-<kw name="Connect To Database">
-<arguments>
-<arg>database</arg>
-</arguments>
-<doc>connects to the given database
-
-Arguments:
-- _database_: database to connect
-
-Example:
-| Connect To Database | robotdb1 |</doc>
 </kw>
 <kw name="Connect To Server">
 <arguments>

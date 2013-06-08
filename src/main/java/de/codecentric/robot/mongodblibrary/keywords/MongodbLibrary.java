@@ -109,19 +109,6 @@ public class MongodbLibrary {
 	}
 
 	/**
-	 * connects to the given database
-	 * 
-	 * Arguments: 
-	 * - _database_: database to connect
-	 * 
-	 * Example: 
-	 * | Connect To Database | robotdb1 |
-	 */
-	public void connectToDatabase(String database) {
-		db = mongoClient.getDB(database);
-	}
-
-	/**
 	 * Inserts the given Json-Document into the given collection.
 	 * 
 	 * Arguments: 
