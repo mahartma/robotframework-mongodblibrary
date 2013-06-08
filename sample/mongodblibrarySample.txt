@@ -24,7 +24,7 @@ should insert data from file (row-seperated)
 	${record1}=  Get From List  ${allRecords}  0
 	${record1Age}=  Get From Dictionary  ${record1}  age
 	${expectedAge}=  Convert To Integer  22
-	Should Be Equal  ${expectedAge}  ${record1Age}  Alter ist nicht 22  
+	Should Be Equal  ${expectedAge}  ${record1Age}  age isn't 22  
 *** Keywords ***
 Setup MongoDB
 	Connect To Server  localhost  27020  robotdb1
