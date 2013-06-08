@@ -11,7 +11,7 @@ Sample test:
 ```
 *** Settings ***
 Library   de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary
-Suite Setup  Startup Embedded  2.4.1
+Suite Setup  Startup Embedded  2.4.4
 Suite TearDown  Shutdown Embedded
 Test Setup  Setup MongoDB
 
@@ -48,9 +48,9 @@ Dependencies
 
 Install
 -------
-- download [robotframework-mongodblibrary-0.2-with-dependencies.jar](http://mahartma.github.com/robotframework-mongodblibrary/robotframework-mongodblibrary-0.2-with-dependencies.jar)
+- download [robotframework-mongodblibrary-0.2.1-with-dependencies.jar](http://mahartma.github.com/robotframework-mongodblibrary/robotframework-mongodblibrary-0.2-with-dependencies.jar)
 - start the mongoDB daemon or use the embedded keywords ( _Startup Embedded_, _Shutdown Embedded_ )
-- add **robotframework-mongodblibrary-0.2-with-dependencies.jar** to the CLASSPATH (see runSample.cmd)
+- add **robotframework-mongodblibrary-0.2.1-with-dependencies.jar** to the CLASSPATH (see runSample.cmd)
 - start the Robot-Tests
 - this can also be done by a gradle task:
 ```groovy
@@ -77,7 +77,7 @@ Remote-Library
 --------------
 - the library also contains the Remote-Server from the Robotframework for executing the keywords on a dedicated JVM (see [Robot-Remote-Library](http://code.google.com/p/robotframework/wiki/RemoteLibrary))
 - it's very useful when you want to use python in the main suite instead of jython
-- the server can be started with **java -jar build/libs/robotframework-mongodblibrary-0.2-with-dependencies.jar**
+- the server can be started with **java -jar build/libs/robotframework-mongodblibrary-0.2.1-with-dependencies.jar**
 - see the example below:
 
 ```
