@@ -7,6 +7,7 @@ import static org.junit.Assert.assertThat;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -61,6 +62,7 @@ public class MongodbLibraryTest {
 	public void setUp() throws UnknownHostException {
 		library = new MongodbLibrary();
 		library.connectToServer("localhost", MONGO_TEST_PORT.toString(), "robotdb1");
+		library.connectToDatabase("robotdb1");
 		mongoClient = new MongoClient("localhost" , MONGO_TEST_PORT );
 		db1 = mongoClient.getDB("robotdb1");
 		mongoClient.getDB("robotdb2");
@@ -286,5 +288,91 @@ public class MongodbLibraryTest {
 		db1.getCollection("testCol").ensureIndex((DBObject) JSON.parse("{a : 1, b : 1}"));
 		//when
 		library.indexShouldExist("testCol", "a_1_b_11");
+	}
+	
+	@Test
+	public void shouldReturnAllRecordsFromCollection() {
+		//given
+		db1.getCollection("testCol").insert((DBObject) JSON.parse("{name : 'Max', age : 22}"));
+		db1.getCollection("testCol").insert((DBObject) JSON.parse("{name : 'Peter', age: 23}"));
+		//when
+		List<Map<String,Object>> allRecords = library.getAllRecords("testCol");
+		//then
+		assertThat(allRecords.size(), is(2));
+		assertThat((Integer)allRecords.get(0).get("age"), is(22));
+		assertThat((Integer)allRecords.get(1).get("age"), is(23));
+	}
+
+	@Test
+	public void shouldReturnRecordsFromCollection() {
+		//given
+		db1.getCollection("testCol").insert((DBObject) JSON.parse("{name : 'Max', age : 22}"));
+		db1.getCollection("testCol").insert((DBObject) JSON.parse("{name : 'Peter', age: 23}"));
+		db1.getCollection("testCol").insert((DBObject) JSON.parse("{name : 'Eric', age: 40}"));
+		String json = "{ age : { $gte: 23 } }";
+		//when
+		List<Map<String,Object>> records = library.getRecords("testCol", json);
+		//then
+		assertThat(records.size(), is(2));
+		assertThat((Integer)records.get(0).get("age"), is(23));
+		assertThat((Integer)records.get(1).get("age"), is(40));
+	}
+
+	@Test
+	public void shouldRemoveRecordsFromCollection() {
+		//given
+		db1.getCollection("testCol").insert((DBObject) JSON.parse("{name : 'Max', age : 22}"));
+		db1.getCollection("testCol").insert((DBObject) JSON.parse("{name : 'Peter', age: 23}"));
+		db1.getCollection("testCol").insert((DBObject) JSON.parse("{name : 'Eric', age: 40}"));
+		String json = "{ age : { $gte: 23 } }";
+		//when
+		library.removeRecords("testCol", json);
+		//then
+		assertThat(db1.getCollection("testCol").count(), is(1L));
+	}
+
+	@Test
+	public void shouldRemoveAllRecordsFromCollection() {
+		//given
+		db1.getCollection("testCol").insert((DBObject) JSON.parse("{name : 'Max', age : 22}"));
+		db1.getCollection("testCol").insert((DBObject) JSON.parse("{name : 'Peter', age: 23}"));
+		db1.getCollection("testCol").insert((DBObject) JSON.parse("{name : 'Eric', age: 40}"));
+		//when
+		library.removeAllRecords("testCol");
+		//then
+		assertThat(db1.getCollection("testCol").count(), is(0L));
+	}
+	
+	@Test
+	public void shouldReturnCountFromCollection() {
+		//given
+		db1.getCollection("testCol").insert((DBObject) JSON.parse("{name : 'Max', age : 22}"));
+		db1.getCollection("testCol").insert((DBObject) JSON.parse("{name : 'Peter', age: 23}"));
+		//when
+		long count = library.getCollectionCount("testCol");
+		//then
+		assertThat(count, is(2L));
+	}
+	
+	@Test
+	public void shouldReturnCollectionNames() {
+		//given
+		db1.getCollection("testCol1").insert((DBObject) JSON.parse("{name : 'Max', age : 22}"));
+		db1.getCollection("testCol2").insert((DBObject) JSON.parse("{name : 'Peter', age: 23}"));
+		//when
+		List<String> collections = library.getCollections();
+		//then
+		assertThat(collections.size(), is(2));
+	}
+
+	@Test
+	public void shouldReturnDatabaseNames() {
+		//given
+		db1.getCollection("testCol1").insert((DBObject) JSON.parse("{name : 'Max', age : 22}"));
+		db1.getCollection("testCol2").insert((DBObject) JSON.parse("{name : 'Peter', age: 23}"));
+		//when
+		List<String> databases = library.getDatabases();
+		//then
+		assertThat(databases.size(), is(2));
 	}
 }

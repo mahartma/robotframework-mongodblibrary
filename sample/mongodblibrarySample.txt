@@ -1,5 +1,6 @@
 *** Settings ***
 Library   de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary
+Library	  Collections
 Suite Setup  Startup Embedded  2.4.4
 Suite TearDown  Shutdown Embedded
 Test Setup  Setup MongoDB
@@ -16,10 +17,14 @@ should insert data from file
 should insert data from file (row-seperated)
 	Import Documents Row Seperated  myCollection  sample/dataMultipleRows.json
 	Collection Should Exist  myCollection
-	Document Should Exist  myCollection  {name : 'Mike'}
-	Document Should Exist  myCollection  {name : 'Tom'}
-	Document Should Exist  myCollection  {name : 'Eric'}
-
+	Document Should Exist  myCollection  {name : 'Mike', age : 22}
+	Document Should Exist  myCollection  {name : 'Tom', age : 25}
+	Document Should Exist  myCollection  {name : 'Eric', age : 40}
+	${allRecords}=  Get All Records  myCollection
+	${record1}=  Get From List  ${allRecords}  0
+	${record1Age}=  Get From Dictionary  ${record1}  age
+	${expectedAge}=  Convert To Integer  22
+	Should Be Equal  ${expectedAge}  ${record1Age}  Alter ist nicht 22  
 *** Keywords ***
 Setup MongoDB
 	Connect To Server  localhost  27020  robotdb1

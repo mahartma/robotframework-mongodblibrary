@@ -9,7 +9,11 @@ import static org.junit.Assert.fail;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
 
@@ -102,6 +106,19 @@ public class MongodbLibrary {
 		} catch (UnknownHostException e) {
 			throw new MongodbLibraryException("error connecting mongodb", e);
 		}
+	}
+
+	/**
+	 * connects to the given database
+	 * 
+	 * Arguments: 
+	 * - _database_: database to connect
+	 * 
+	 * Example: 
+	 * | Connect To Database | robotdb1 |
+	 */
+	public void connectToDatabase(String database) {
+		db = mongoClient.getDB(database);
 	}
 
 	/**
@@ -350,4 +367,111 @@ public class MongodbLibrary {
 	DB getDb() {
 		return db;
 	}
+
+	/**
+	 *  Returns all records from the given collection.
+	 *  
+	 *  Arguments:
+	 *  - _collectionName_: the name of the collection
+	 *  
+	 *  Example:
+	 *  | Get All Records | myCol |
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> getAllRecords(String collectionName) {
+		List<Map<String, Object>> ret = new ArrayList<Map<String, Object>>();
+		for (DBObject record : db.getCollection(collectionName).find()) {
+			ret.add(record.toMap());
+		}
+		return ret;
+	}
+
+	/**
+	 *  Finds records in the given collection.
+	 *  
+	 *  Arguments:
+	 *  - _collectionName_: the name of the collection
+	 *  - _jsonString_: the records to find as JSON
+	 *  
+	 *  Example:
+	 *  | Get Records | myCol | { age : { $gte: 23 } } |
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> getRecords(String collectionName, String jsonString) {
+		List<Map<String, Object>> ret = new ArrayList<Map<String, Object>>();
+		for (DBObject record : db.getCollection(collectionName).find(
+				(DBObject) parse(jsonString))) {
+			ret.add(record.toMap());
+		}
+		return ret;
+	}
+
+	/**
+	 *  Removes some records in the given collection.
+	 *  
+	 *  Arguments:
+	 *  - _collectionName_: the name of the collection
+	 *  - _jsonString_: the records to remove as JSON
+	 *  
+	 *  Example:
+	 *  | Remove Records | myCol | { age : { $gte: 23 } } |
+	 */	
+	public void removeRecords(String collectionName, String jsonString) {
+		for (DBObject record : db.getCollection(collectionName).find(
+				(DBObject) parse(jsonString))) {
+			db.getCollection(collectionName).remove(record);
+		}
+	}
+
+	/**
+	 *  Removes all records in the given collection.
+	 *  
+	 *  Arguments:
+	 *  - _collectionName_: the name of the collection
+	 *  
+	 *  Example:
+	 *  | Remove All Records | myCol |
+	 */	
+	public void removeAllRecords(String collectionName) {
+		for (DBObject record : db.getCollection(collectionName).find()) {
+			db.getCollection(collectionName).remove(record);
+		}
+	}
+
+	/**
+	 *  Returns the number of records in the given collection.
+	 *  
+	 *  Arguments:
+	 *  - _collectionName_: the name of the collection
+	 *  
+	 *  Example:
+	 *  | Get Collection Count | myCol |
+	 */	
+	public long getCollectionCount(String collectionName) {
+		return db.getCollection(collectionName).count();
+	}
+
+	/**
+	 *  Returns the names of the collections from the connected database.
+	 *  
+	 *  Example:
+	 *  | Get Collections |
+	 */	
+	public List<String> getCollections() {
+		Set<String> collectionNames = db.getCollectionNames();
+		collectionNames.remove("system.indexes");
+		return new ArrayList<String>(collectionNames);
+	}
+
+	/**
+	 *  Returns the name of the databases from the server.
+	 *  
+	 *  Example:
+	 *  | Get Databases |
+	 */	
+	public List<String> getDatabases() {
+		return mongoClient.getDatabaseNames();
+	}
+
+	
 }
