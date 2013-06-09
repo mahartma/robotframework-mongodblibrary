@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<keywordspec generated="20130609 00:51:23" format="ROBOT" type="library" name="de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary">
+<keywordspec generated="20130609 02:38:57" format="ROBOT" type="library" name="de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary">
 <version></version>
 <scope>global</scope>
 <namedargs>no</namedargs>
@@ -155,23 +155,23 @@ Arguments:
 Example:
 | Ensure Index | myCol | {name : 1, street : 1} |</doc>
 </kw>
-<kw name="Get All Records">
+<kw name="Get All Documents">
 <arguments>
 <arg>collectionName</arg>
 </arguments>
-<doc>Returns all records from the given collection.
+<doc>Returns all documents from the given collection.
 
 Arguments:
 - _collectionName_: the name of the collection
 
 Example:
-| Get All Records | myCol |</doc>
+| Get All Documents | myCol |</doc>
 </kw>
 <kw name="Get Collection Count">
 <arguments>
 <arg>collectionName</arg>
 </arguments>
-<doc>Returns the number of records in the given collection.
+<doc>Returns the number of documents in the given collection.
 
 Arguments:
 - _collectionName_: the name of the collection
@@ -195,19 +195,19 @@ Example:
 Example:
 | Get Databases |</doc>
 </kw>
-<kw name="Get Records">
+<kw name="Get Documents">
 <arguments>
 <arg>collectionName</arg>
 <arg>jsonString</arg>
 </arguments>
-<doc>Finds records in the given collection.
+<doc>Finds documents in the given collection.
 
 Arguments:
 - _collectionName_: the name of the collection
-- _jsonString_: the records to find as JSON
+- _jsonString_: the documents to find as JSON
 
 Example:
-| Get Records | myCol | { age : { $gte: 23 } } |</doc>
+| Get Documents | myCol | { age : { $gte: 23 } } |</doc>
 </kw>
 <kw name="Import Documents">
 <arguments>
@@ -256,40 +256,40 @@ Example:
 <arg>collectionName</arg>
 <arg>jsonString</arg>
 </arguments>
-<doc>Inserts the given Json-Document into the given collection.
+<doc>Inserts the given document into the given collection.
 
 Arguments:
 - _collectionName_: the name of the target collection
-- _jsonString_: the json document to persist
+- _jsonString_: the document to persist as JSON
 
 Example:
 | Insert Document | myCollection | {say : 'Hello MongoDB!'} |</doc>
 </kw>
-<kw name="Remove All Records">
+<kw name="Remove All Documents">
 <arguments>
 <arg>collectionName</arg>
 </arguments>
-<doc>Removes all records in the given collection.
+<doc>Removes all documents in the given collection.
 
 Arguments:
 - _collectionName_: the name of the collection
 
 Example:
-| Remove All Records | myCol |</doc>
+| Remove All Documents | myCol |</doc>
 </kw>
-<kw name="Remove Records">
+<kw name="Remove Documents">
 <arguments>
 <arg>collectionName</arg>
 <arg>jsonString</arg>
 </arguments>
-<doc>Removes some records in the given collection.
+<doc>Removes some documents in the given collection.
 
 Arguments:
 - _collectionName_: the name of the collection
-- _jsonString_: the records to remove as JSON
+- _jsonString_: the documents to remove as JSON
 
 Example:
-| Remove Records | myCol | { age : { $gte: 23 } } |</doc>
+| Remove Documents | myCol | { age : { $gte: 23 } } |</doc>
 </kw>
 <kw name="Shutdown Embedded">
 <arguments>
@@ -324,6 +324,22 @@ Arguments:
 
 Example:
 | Startup Embedded | 2.4.1 | 27042 |</doc>
+</kw>
+<kw name="Update Documents">
+<arguments>
+<arg>collectionName</arg>
+<arg>queryJsonString</arg>
+<arg>newObjectJsonString</arg>
+</arguments>
+<doc>Updates documents in the given collection.
+
+Arguments:
+- _collectionName_: the name of the collection
+- _queryJsonString_: the documents to update as JSON
+- _newObjectJsonString_: the updated document as JSON
+
+Example:
+| Update Documents | myCollection | { age : { $gte: 23 } } | {name : 'Mike', age : 22} |</doc>
 </kw>
 <kw name="Use Database">
 <arguments>
