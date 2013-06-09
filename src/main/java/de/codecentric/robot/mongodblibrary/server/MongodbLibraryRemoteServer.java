@@ -1,5 +1,7 @@
 package de.codecentric.robot.mongodblibrary.server;
 
+import static de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary.VERSION;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -11,7 +13,7 @@ public class MongodbLibraryRemoteServer {
 
 	public static final int DEFAULT_PORT = 8270; 
 
-	public static final String MESSAGE = "MongoDB Library v0.1 remote server started";
+	public static final String MESSAGE = "MongoDB Library v" + VERSION + " remote server started";
 	
 	private static org.robotframework.remoteserver.RemoteServer server;
 
@@ -56,10 +58,10 @@ public class MongodbLibraryRemoteServer {
 	private static void displayUsage() {
 		System.out.println("\n" + MESSAGE + "\n");
 		System.out.println("Usage Info:\n");
-		System.out.println("Ensure that the robotframework-mongodblibrary-0.1-with-dependencies.jar JAR and your MongoDB Java Driver JAR is in the classpath, e.g.:\n");
-		System.out.println("set CLASSPATH=%CLASSPATH%;./robotframework-mongodblibrary-0.1-with-dependencies.jar;./mongo-java-driver-2.10.0.jar\n\n");
+		System.out.println("Ensure that the robotframework-mongodblibrary-" + VERSION + "-with-dependencies.jar JAR is in the classpath, e.g.:\n");
+		System.out.println("set CLASSPATH=%CLASSPATH%;./robotframework-mongodblibrary-" + VERSION + "-with-dependencies.jar");
 		System.out.println("The start the server as follows:\n");
-		System.out.println("java de.codecentric.robot.mongodblibrary.server.MongodbLibraryRemoteServer --port <port> --help");
+		System.out.println("java -jar robotframework-mongodblibrary-" + VERSION + "-with-dependencies.jar --port <port>");
 		System.out.println("");
 	}
 }

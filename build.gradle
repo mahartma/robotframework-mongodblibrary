@@ -35,6 +35,11 @@ task(type : Jar, 'jar with dependencies') {
 	manifest { attributes 'Main-Class': 'de.codecentric.robot.mongodblibrary.server.MongodbLibraryRemoteServer' }
 }
 
+processResources {
+	filter(org.apache.tools.ant.filters.ReplaceTokens,
+		tokens: [version: project.version])
+}
+
 assemble.dependsOn 'jar with dependencies'
 
 task(type : JavaExec, 'run sample tests') {

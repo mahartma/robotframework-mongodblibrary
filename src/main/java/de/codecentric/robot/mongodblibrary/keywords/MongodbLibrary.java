@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
@@ -35,6 +36,9 @@ import de.flapdoodle.embed.process.distribution.GenericVersion;
  */
 public class MongodbLibrary {
 
+	public static final String VERSION = ResourceBundle.
+			getBundle(MongodbLibrary.class.getName()).getString("lib.version");
+	
 	public static final String ROBOT_LIBRARY_SCOPE = "GLOBAL";
 
 	private static final int MONGO_DEFAULT_PORT = 27020;

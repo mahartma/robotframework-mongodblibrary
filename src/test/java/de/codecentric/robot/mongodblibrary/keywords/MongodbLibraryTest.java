@@ -76,6 +76,14 @@ public class MongodbLibraryTest {
 	}
 	
 	@Test
+	public void shouldReturnVersion() {
+		//when
+		String version = MongodbLibrary.VERSION;
+		//then
+		assertThat(version, is(notNullValue()));
+	}
+	
+	@Test
 	public void shouldInsertDocumentIntoCollection() {
 		//given
 		DBCollection collection = db1.getCollection("testCol");
