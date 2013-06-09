@@ -1,5 +1,6 @@
 package de.codecentric.robot.mongodblibrary.keywords;
 
+import static com.mongodb.util.JSON.parse;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
@@ -75,7 +76,7 @@ public class MongodbLibraryTest {
 	}
 	
 	@Test
-	public void shouldInsertJsonIntoCollection() {
+	public void shouldInsertDocumentIntoCollection() {
 		//given
 		DBCollection collection = db1.getCollection("testCol");
 		String json = "{say : 'Hello MongoDb!'}";
@@ -86,6 +87,18 @@ public class MongodbLibraryTest {
 		assertThat(object, is(notNullValue()));
 		assertThat(object.containsField("say"), is(Boolean.TRUE));
 		assertThat((String)object.get("say"), is("Hello MongoDb!"));
+	}
+
+	@Test
+	public void shouldUpdateDocuments() {
+		//given
+		db1.getCollection("testCol1").insert((DBObject) JSON.parse("{name : 'Max', age : 22}"));
+		db1.getCollection("testCol1").insert((DBObject) JSON.parse("{name : 'Peter', age: 40}"));
+		//when
+		library.updateDocuments("testCol1", "{ age: 22 }", "{ $inc: { age: 1 } }");
+		//then
+		assertThat((Integer)db1.getCollection("testCol1").findOne((DBObject)parse("{ name : 'Max'}")).get("age"), is(23));
+		assertThat((Integer)db1.getCollection("testCol1").findOne((DBObject)parse("{ name : 'Peter'}")).get("age"), is(40));
 	}
 	
 	@Test
@@ -290,54 +303,54 @@ public class MongodbLibraryTest {
 	}
 	
 	@Test
-	public void shouldReturnAllRecordsFromCollection() {
+	public void shouldReturnAllDocumentsFromCollection() {
 		//given
 		db1.getCollection("testCol").insert((DBObject) JSON.parse("{name : 'Max', age : 22}"));
 		db1.getCollection("testCol").insert((DBObject) JSON.parse("{name : 'Peter', age: 23}"));
 		//when
-		List<Map<String,Object>> allRecords = library.getAllRecords("testCol");
+		List<Map<String,Object>> allDocuments = library.getAllDocuments("testCol");
 		//then
-		assertThat(allRecords.size(), is(2));
-		assertThat((Integer)allRecords.get(0).get("age"), is(22));
-		assertThat((Integer)allRecords.get(1).get("age"), is(23));
+		assertThat(allDocuments.size(), is(2));
+		assertThat((Integer)allDocuments.get(0).get("age"), is(22));
+		assertThat((Integer)allDocuments.get(1).get("age"), is(23));
 	}
 
 	@Test
-	public void shouldReturnRecordsFromCollection() {
+	public void shouldReturnDocumentsFromCollection() {
 		//given
 		db1.getCollection("testCol").insert((DBObject) JSON.parse("{name : 'Max', age : 22}"));
 		db1.getCollection("testCol").insert((DBObject) JSON.parse("{name : 'Peter', age: 23}"));
 		db1.getCollection("testCol").insert((DBObject) JSON.parse("{name : 'Eric', age: 40}"));
 		String json = "{ age : { $gte: 23 } }";
 		//when
-		List<Map<String,Object>> records = library.getRecords("testCol", json);
+		List<Map<String,Object>> documents = library.getDocuments("testCol", json);
 		//then
-		assertThat(records.size(), is(2));
-		assertThat((Integer)records.get(0).get("age"), is(23));
-		assertThat((Integer)records.get(1).get("age"), is(40));
+		assertThat(documents.size(), is(2));
+		assertThat((Integer)documents.get(0).get("age"), is(23));
+		assertThat((Integer)documents.get(1).get("age"), is(40));
 	}
 
 	@Test
-	public void shouldRemoveRecordsFromCollection() {
+	public void shouldRemoveDocumentsFromCollection() {
 		//given
 		db1.getCollection("testCol").insert((DBObject) JSON.parse("{name : 'Max', age : 22}"));
 		db1.getCollection("testCol").insert((DBObject) JSON.parse("{name : 'Peter', age: 23}"));
 		db1.getCollection("testCol").insert((DBObject) JSON.parse("{name : 'Eric', age: 40}"));
 		String json = "{ age : { $gte: 23 } }";
 		//when
-		library.removeRecords("testCol", json);
+		library.removeDocuments("testCol", json);
 		//then
 		assertThat(db1.getCollection("testCol").count(), is(1L));
 	}
 
 	@Test
-	public void shouldRemoveAllRecordsFromCollection() {
+	public void shouldRemoveAllDocumentsFromCollection() {
 		//given
 		db1.getCollection("testCol").insert((DBObject) JSON.parse("{name : 'Max', age : 22}"));
 		db1.getCollection("testCol").insert((DBObject) JSON.parse("{name : 'Peter', age: 23}"));
 		db1.getCollection("testCol").insert((DBObject) JSON.parse("{name : 'Eric', age: 40}"));
 		//when
-		library.removeAllRecords("testCol");
+		library.removeAllDocuments("testCol");
 		//then
 		assertThat(db1.getCollection("testCol").count(), is(0L));
 	}

@@ -109,11 +109,11 @@ public class MongodbLibrary {
 	}
 
 	/**
-	 * Inserts the given Json-Document into the given collection.
+	 * Inserts the given document into the given collection.
 	 * 
 	 * Arguments: 
 	 * - _collectionName_: the name of the target collection 
-	 * - _jsonString_: the json document to persist
+	 * - _jsonString_: the document to persist as JSON
 	 * 
 	 * Example: 
 	 * | Insert Document | myCollection | {say : 'Hello MongoDB!'} |
@@ -122,6 +122,24 @@ public class MongodbLibrary {
 			String jsonString) {
 		db.getCollection(collectionName).insert(
 				(DBObject) parse(jsonString));
+	}
+
+	/**
+	 * Updates documents in the given collection.
+	 * 
+	 * Arguments: 
+	 * - _collectionName_: the name of the collection 
+	 * - _queryJsonString_: the documents to update as JSON
+	 * - _newObjectJsonString_: the updated document as JSON
+	 * 
+	 * Example: 
+	 * | Update Documents | myCollection | { age : { $gte: 23 } } | {name : 'Mike', age : 22} | 
+	 */
+	public void updateDocuments(String collectionName,
+			String queryJsonString, String newObjectJsonString) {
+		DBObject queryJson = (DBObject) parse(queryJsonString);
+		DBObject newObjectJson = (DBObject) parse(newObjectJsonString);
+		db.getCollection(collectionName).update(queryJson, newObjectJson, false, true);
 	}
 	
 	/**
@@ -356,77 +374,77 @@ public class MongodbLibrary {
 	}
 
 	/**
-	 *  Returns all records from the given collection.
+	 *  Returns all documents from the given collection.
 	 *  
 	 *  Arguments:
 	 *  - _collectionName_: the name of the collection
 	 *  
 	 *  Example:
-	 *  | Get All Records | myCol |
+	 *  | Get All Documents | myCol |
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Map<String, Object>> getAllRecords(String collectionName) {
+	public List<Map<String, Object>> getAllDocuments(String collectionName) {
 		List<Map<String, Object>> ret = new ArrayList<Map<String, Object>>();
-		for (DBObject record : db.getCollection(collectionName).find()) {
-			ret.add(record.toMap());
+		for (DBObject document : db.getCollection(collectionName).find()) {
+			ret.add(document.toMap());
 		}
 		return ret;
 	}
 
 	/**
-	 *  Finds records in the given collection.
+	 *  Finds documents in the given collection.
 	 *  
 	 *  Arguments:
 	 *  - _collectionName_: the name of the collection
-	 *  - _jsonString_: the records to find as JSON
+	 *  - _jsonString_: the documents to find as JSON
 	 *  
 	 *  Example:
-	 *  | Get Records | myCol | { age : { $gte: 23 } } |
+	 *  | Get Documents | myCol | { age : { $gte: 23 } } |
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Map<String, Object>> getRecords(String collectionName, String jsonString) {
+	public List<Map<String, Object>> getDocuments(String collectionName, String jsonString) {
 		List<Map<String, Object>> ret = new ArrayList<Map<String, Object>>();
-		for (DBObject record : db.getCollection(collectionName).find(
+		for (DBObject document : db.getCollection(collectionName).find(
 				(DBObject) parse(jsonString))) {
-			ret.add(record.toMap());
+			ret.add(document.toMap());
 		}
 		return ret;
 	}
 
 	/**
-	 *  Removes some records in the given collection.
+	 *  Removes some documents in the given collection.
 	 *  
 	 *  Arguments:
 	 *  - _collectionName_: the name of the collection
-	 *  - _jsonString_: the records to remove as JSON
+	 *  - _jsonString_: the documents to remove as JSON
 	 *  
 	 *  Example:
-	 *  | Remove Records | myCol | { age : { $gte: 23 } } |
+	 *  | Remove Documents | myCol | { age : { $gte: 23 } } |
 	 */	
-	public void removeRecords(String collectionName, String jsonString) {
-		for (DBObject record : db.getCollection(collectionName).find(
+	public void removeDocuments(String collectionName, String jsonString) {
+		for (DBObject document : db.getCollection(collectionName).find(
 				(DBObject) parse(jsonString))) {
-			db.getCollection(collectionName).remove(record);
+			db.getCollection(collectionName).remove(document);
 		}
 	}
 
 	/**
-	 *  Removes all records in the given collection.
+	 *  Removes all documents in the given collection.
 	 *  
 	 *  Arguments:
 	 *  - _collectionName_: the name of the collection
 	 *  
 	 *  Example:
-	 *  | Remove All Records | myCol |
+	 *  | Remove All Documents | myCol |
 	 */	
-	public void removeAllRecords(String collectionName) {
-		for (DBObject record : db.getCollection(collectionName).find()) {
-			db.getCollection(collectionName).remove(record);
+	public void removeAllDocuments(String collectionName) {
+		for (DBObject document : db.getCollection(collectionName).find()) {
+			db.getCollection(collectionName).remove(document);
 		}
 	}
 
 	/**
-	 *  Returns the number of records in the given collection.
+	 *  Returns the number of documents in the given collection.
 	 *  
 	 *  Arguments:
 	 *  - _collectionName_: the name of the collection
