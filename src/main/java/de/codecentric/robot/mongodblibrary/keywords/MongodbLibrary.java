@@ -129,7 +129,7 @@ public class MongodbLibrary {
 	}
 
 	/**
-	 * Updates documents in the given collection.
+	 * Updates some documents in the given collection.
 	 * 
 	 * Arguments: 
 	 * - _collectionName_: the name of the collection 
