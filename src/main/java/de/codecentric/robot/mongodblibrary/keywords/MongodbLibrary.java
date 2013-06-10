@@ -396,7 +396,7 @@ public class MongodbLibrary {
 	}
 
 	/**
-	 *  Finds documents in the given collection.
+	 *  Finds some documents in the given collection.
 	 *  
 	 *  Arguments:
 	 *  - _collectionName_: the name of the collection
