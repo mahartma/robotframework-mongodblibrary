@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<keywordspec generated="20130609 02:38:57" format="ROBOT" type="library" name="de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary">
+<keywordspec generated="20130611 08:41:32" format="ROBOT" type="library" name="de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary">
 <version></version>
 <scope>global</scope>
 <namedargs>no</namedargs>
@@ -200,7 +200,7 @@ Example:
 <arg>collectionName</arg>
 <arg>jsonString</arg>
 </arguments>
-<doc>Finds documents in the given collection.
+<doc>Finds some documents in the given collection.
 
 Arguments:
 - _collectionName_: the name of the collection
@@ -331,7 +331,7 @@ Example:
 <arg>queryJsonString</arg>
 <arg>newObjectJsonString</arg>
 </arguments>
-<doc>Updates documents in the given collection.
+<doc>Updates some documents in the given collection.
 
 Arguments:
 - _collectionName_: the name of the collection
