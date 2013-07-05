@@ -1,3 +1,5 @@
 language: java
 jdk:
   - openjdk6
+  
+after_script:  gradle 'run sample tests'
