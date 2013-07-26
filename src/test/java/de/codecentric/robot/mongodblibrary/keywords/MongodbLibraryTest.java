@@ -48,7 +48,7 @@ public class MongodbLibraryTest {
 	
 	@BeforeClass
 	public static void startMongoDB() throws IOException {
-		MongodConfig mongodConfig = new MongodConfig(new GenericVersion("2.4.4"), MONGO_TEST_PORT, Network.localhostIsIPv6());
+		MongodConfig mongodConfig = new MongodConfig(new GenericVersion("2.4.5"), MONGO_TEST_PORT, Network.localhostIsIPv6());
 		MongodStarter runtime = MongodStarter.getDefaultInstance();
 		mongodExecutable = runtime.prepare(mongodConfig);
 		mongodExecutable.start();
