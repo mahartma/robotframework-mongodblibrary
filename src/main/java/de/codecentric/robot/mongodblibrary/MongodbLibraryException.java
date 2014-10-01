@@ -1,5 +1,11 @@
 package de.codecentric.robot.mongodblibrary;
 
+/**
+ * 
+ * 
+ * @author Max Hartmann
+ *
+ */
 public class MongodbLibraryException extends RuntimeException {
 
 	private static final long serialVersionUID = 42L;
