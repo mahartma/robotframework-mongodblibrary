@@ -21,7 +21,7 @@ dependencies {
 	docs files("${System.getProperty('java.home')}/../lib/tools.jar")
 }
 
-task(type : Jar, 'jar with dependencies') {
+task(type : Jar, 'jarWithDependencies') {
 	classifier = 'with-dependencies'
 	exclude('META-INF/*.RSA') 
 	exclude('META-INF/*.SF') 
@@ -40,9 +40,9 @@ processResources {
 		tokens: [version: project.version])
 }
 
-assemble.dependsOn 'jar with dependencies'
+assemble.dependsOn 'jarWithDependencies'
 
-task(type : JavaExec, 'run sample tests') {
+task(type : JavaExec, 'runSampleTests') {
 	classpath = configurations.robot + configurations.compile + sourceSets.main.runtimeClasspath
 	main = 'org.robotframework.RobotFramework'
 	args = [
@@ -52,12 +52,12 @@ task(type : JavaExec, 'run sample tests') {
 	]
 }
 
-task 'generate docs' << {
-	tasks['generate html doc'].exec()
-	tasks['generate xml doc'].exec()
+task 'generateDocs' << {
+	tasks['generateHtmlDoc'].exec()
+	tasks['generateXmlDoc'].exec()
 }
 
-task(type : JavaExec, 'generate html doc') {
+task(type : JavaExec, 'generateHtmldoc') {
 	classpath = configurations.docs + configurations.robot + configurations.compile + sourceSets.main.runtimeClasspath
 	main = 'org.python.util.jython'
 	args = [
@@ -68,7 +68,7 @@ task(type : JavaExec, 'generate html doc') {
 	]
 }
 
-task(type : JavaExec, 'generate xml doc') {
+task(type : JavaExec, 'generateXmlDoc') {
 	classpath = configurations.docs + configurations.robot + configurations.compile + sourceSets.main.runtimeClasspath
 	main = 'org.python.util.jython'
 	args = [
